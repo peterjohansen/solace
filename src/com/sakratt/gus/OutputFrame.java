@@ -3,6 +3,7 @@ package com.sakratt.gus;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Locale;
@@ -14,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 /**
- * An output frame is a graphical user interface that display text.
+ * An output frame is a graphical user interface that displays text.
  * 
  * @author Peter André Johansen
  * 
@@ -86,8 +87,8 @@ public class OutputFrame {
 		// Initialize
 		setOutputFont(OUTPUT_AREA_FONT);
 		setSize(width, height);
-		frame.setVisible(true);
 		setTitle(title);
+		frame.setVisible(true);
 	}
 
 	/**
@@ -183,6 +184,13 @@ public class OutputFrame {
 		frame.setPreferredSize(size);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
+	}
+
+	/**
+	 * @param image the new frame icon image
+	 */
+	public final void setIconImage(Image image) {
+		frame.setIconImage(image);
 	}
 
 	/**

@@ -5,8 +5,16 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * A console is a {@link Window} that only allows the user to enter text when requested by the
- * program. Also contains useful methods for getting user input, like {@link #getString()},
- * {@link #getInt()} and {@link #getBoolean(String)}.
+ * program.
+ * <p>
+ * Also contains useful methods for getting user input, a few of which are:
+ * <ul>
+ * <li>{@link #getBoolean(String)}</li>
+ * <li>{@link #getChar(String)}</li>
+ * <li>{@link #getDouble()}</li>
+ * <li>{@link #getInt()}</li>
+ * <li>{@link #getString()}</li>
+ * </ul>
  * 
  * @author Peter André Johansen
  * 

@@ -16,7 +16,7 @@ import javax.swing.border.MatteBorder;
 /**
  * A window is a graphical user interface consisting of an input and output area, allowing the user
  * to enter text and the program to display text. By default the input submitted will only be echoed
- * back, but this can be changed by overriding the <code>receivedInput(String input)</code> method.
+ * back, but this can be changed by overriding the {@link #receiveInput(String)} method.
  * <p>
  * For a {@link Window} that uses polling input, see the {@link Console} class.
  * 
@@ -137,18 +137,11 @@ public class Window extends OutputFrame {
 	/**
 	 * Blocking input will disable the input area.
 	 * 
-	 * @param accept whether to accept user input or not
+	 * @param accept whether to accept user input
 	 */
 	public final void setAcceptUserInput(boolean accept) {
 		inputArea.setEnabled(accept);
 		inputArea.requestFocusInWindow();
-	}
-
-	/**
-	 * @param image the new frame icon image
-	 */
-	public final void setIconImage(Image image) {
-		frame.setIconImage(image);
 	}
 
 	/**
