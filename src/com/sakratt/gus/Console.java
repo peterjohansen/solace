@@ -24,8 +24,10 @@ public class Console extends Window {
 	private static final String DEFAULT_TITLE = "Console";
 	private static final int DEFAULT_SPEED = 0;
 	private static final String AWAITING_INTERACTION_TEXT = "Press any key to continue...";
-	private static final String[] YES_STRINGS = { "yes", "y", "1", "true" };
-	private static final String[] NO_STRINGS = { "no", "n", "0", "false" };
+	private static final String[] YES_STRINGS =
+	{ "yes", "y", "1", "true" };
+	private static final String[] NO_STRINGS =
+	{ "no", "n", "0", "false" };
 
 	/**
 	 * How many lines of input to remember.
@@ -48,7 +50,7 @@ public class Console extends Window {
 	private boolean awatingInteraction;
 
 	/**
-	 * The speed to display each character in output text in milliseconds.
+	 * The speed in milliseconds to display each character in the output area.
 	 */
 	private int speed;
 
@@ -100,7 +102,8 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a boolean using common English strings for yes and no answers.
+	 * Polls the console for a boolean using common English strings for yes (<code>true</code>) or
+	 * no (<code>false</code>) answers.
 	 * 
 	 * @param error the message to display if the input is not recognized
 	 * @return true if the user entered a yes answer
@@ -111,7 +114,7 @@ public class Console extends Window {
 
 	/**
 	 * Polls the console for a boolean using the strings given for determining whether the input was
-	 * a yes or no answer.
+	 * a yes (<code>true</code>) or no (<code>false</code>) answer.
 	 * 
 	 * @param yesAnswers the yes answer strings
 	 * @param noAnswers the no answer strings
@@ -170,7 +173,7 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return the speed each character in output text will be displayed in milliseconds
+	 * @return the speed in milliseconds each character in the output area will be displayed
 	 */
 	public int getDisplaySpeed() {
 		return speed;
@@ -344,23 +347,28 @@ public class Console extends Window {
 			int len = str.length();
 			int index = 0;
 			try {
+
+				// Attempt to print a character and sleep
 				for (int i = 0; i < len; i++) {
 					index = i;
 					super.print(str.charAt(i));
 					Thread.sleep(speed);
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
-				for (int i = index; i < len; i++) {
+
+				// Print out remaining characters
+				for (int i = index; i < len; i++)
 					super.print(str.charAt(index));
-				}
 			}
 		}
 	}
 
 	/**
-	 * Sets the speed to display each character in output text. A speed of less than <code>0</code>
-	 * will be set to <code>0</code>, which will instantly display the characters in output text.
+	 * Sets the speed in milliseconds to display each character in the output area. A speed of less
+	 * than <code>0</code> will be set to <code>0</code>, which will instantly display the
+	 * characters in the output area.
 	 * 
 	 * @param speed the speed
 	 */
@@ -376,7 +384,7 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Prints the given text and then polls the console until any key is pressed. Does not print
+	 * Prints the given string and then polls the console until any key is pressed. Does not print
 	 * anything if the given text is {@code null}.
 	 * 
 	 * @param text the text
