@@ -2,7 +2,6 @@ package com.sakratt.gus;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -15,8 +14,10 @@ import javax.swing.border.MatteBorder;
 
 /**
  * A window is a graphical user interface consisting of an input and output area, allowing the user
- * to enter text and the program to display text. By default the input submitted will only be echoed
- * back, but this can be changed by overriding the {@link #receiveInput(String)} method.
+ * to enter text and the program to display text.
+ * <p>
+ * By default the input submitted will only be echoed back, but this can be changed by overriding
+ * the {@link #receiveInput(String)} method.
  * <p>
  * For a {@link Window} that uses polling input, see the {@link Console} class.
  * 
@@ -37,21 +38,17 @@ public class Window extends OutputFrame {
 	}
 
 	/**
-	 * Creates a new window with the given width and height.
-	 * 
-	 * @param width the width
-	 * @param height the height
+	 * @param width the width of the window
+	 * @param height the height of the window
 	 */
 	public Window(int width, int height) {
 		this(width, height, DEFAULT_TITLE);
 	}
 
 	/**
-	 * Creates a new window with the given width, height and title.
-	 * 
-	 * @param width the width
-	 * @param height the height
-	 * @param title the title
+	 * @param width the width of the window
+	 * @param height the height of the window
+	 * @param title the title of the window
 	 */
 	public Window(int width, int height, String title) {
 		super(width, height, title);
@@ -63,7 +60,7 @@ public class Window extends OutputFrame {
 		inputArea.setBorder(new CompoundBorder(outsideBorder, insideBorder));
 		inputArea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				triedToSubmit();
+				submitInput();
 			}
 		});
 		inputArea.addKeyListener(new KeyAdapter() {
@@ -81,9 +78,7 @@ public class Window extends OutputFrame {
 	}
 
 	/**
-	 * Creates a new window with the given title.
-	 * 
-	 * @param title the title
+	 * @param title the title of the window
 	 */
 	public Window(String title) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
@@ -97,7 +92,7 @@ public class Window extends OutputFrame {
 	}
 
 	/**
-	 * @return true if the window is accepting user input
+	 * @return whether the window is accepting user input
 	 */
 	public final boolean isAcceptingUserInput() {
 		return inputArea.isEnabled();
@@ -113,7 +108,7 @@ public class Window extends OutputFrame {
 	/**
 	 * This method gives the window input, either programmatically or from the user.
 	 * <p>
-	 * By default prints the input to the output area.
+	 * Prints the input to the output area by default.
 	 * 
 	 * @param input the input
 	 */
@@ -135,7 +130,7 @@ public class Window extends OutputFrame {
 	}
 
 	/**
-	 * Blocking input will disable the input area.
+	 * Sets whether to accept user input. The input area will be disabled if input is not accepted.
 	 * 
 	 * @param accept whether to accept user input
 	 */
@@ -147,7 +142,7 @@ public class Window extends OutputFrame {
 	/**
 	 * This method is called when the user tries to submit input.
 	 */
-	private void triedToSubmit() {
+	private void submitInput() {
 		sendTextFromInputArea();
 	}
 }

@@ -27,8 +27,8 @@ public class OutputFrame {
 	protected static final int DEFAULT_HEIGHT = 300;
 	private static final Font OUTPUT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
 
-	JFrame frame;
-	private JTextArea outputArea;
+	final JFrame frame;
+	private final JTextArea outputArea;
 
 	/**
 	 * Creates a new output frame.
@@ -38,41 +38,37 @@ public class OutputFrame {
 	}
 
 	/**
-	 * Creates a new output frame with the given width and height.
-	 * 
-	 * @param width the width
-	 * @param height the height
+	 * @param width the width of the frame
+	 * @param height the height of the frame
 	 */
 	public OutputFrame(int width, int height) {
 		this(width, height, DEFAULT_TITLE);
 	}
 
 	/**
-	 * Creates a new output frame with the given width, height and title.
-	 * 
-	 * @param width the width
-	 * @param height the height
-	 * @param title the title
+	 * @param width the width of the frame
+	 * @param height the height of the frame
+	 * @param title the title of the frame
 	 */
 	public OutputFrame(int width, int height, String title) {
 
 		// Output area
 		outputArea = new JTextArea();
 		outputArea.setBorder(new EmptyBorder(5, 5, 5, 5));
-		outputArea.setMargin(null);
 		outputArea.setEditable(false);
 		outputArea.setLineWrap(true);
+		outputArea.setMargin(null);
 		outputArea.setWrapStyleWord(true);
 		DefaultCaret caret = (DefaultCaret) outputArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
 		// Output area scroll pane
-		int vsbPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED;
-		int hsbPolicy = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER;
-		JScrollPane outputScrollPane = new JScrollPane(outputArea, vsbPolicy, hsbPolicy);
-		outputScrollPane.setBorder(null);
+		final JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(null);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setViewportView(outputArea);
 
-		// Frame
+		// Create the frame
 		frame = new JFrame();
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -82,19 +78,18 @@ public class OutputFrame {
 		});
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
-		frame.add(outputScrollPane, BorderLayout.CENTER);
+		frame.add(scrollPane, BorderLayout.CENTER);
 
 		// Initialize
 		setOutputFont(OUTPUT_AREA_FONT);
 		setSize(width, height);
 		setTitle(title);
 		frame.setVisible(true);
+
 	}
 
 	/**
-	 * Creates a new output frame with the given title.
-	 * 
-	 * @param title the title
+	 * @param title the title of the frame
 	 */
 	public OutputFrame(String title) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
@@ -124,7 +119,8 @@ public class OutputFrame {
 	}
 
 	/**
-	 * Prints a formatted string using the given locale, format string and arguments.
+	 * Prints a formatted string using the given locale, format string and arguments to the output
+	 * area.
 	 * 
 	 * @param locale the locale
 	 * @param format the format
@@ -135,7 +131,7 @@ public class OutputFrame {
 	}
 
 	/**
-	 * Prints a formatted string using the given format string and arguments.
+	 * Prints a formatted string using the given format string and arguments to the output area.
 	 * 
 	 * @param format the format
 	 * @param args the arguments
@@ -161,8 +157,15 @@ public class OutputFrame {
 	}
 
 	/**
-	 * @param x the new frame x coordinate
-	 * @param y the new frame y coordinate
+	 * @param image the new frame icon image
+	 */
+	public final void setIconImage(Image image) {
+		frame.setIconImage(image);
+	}
+
+	/**
+	 * @param x the new frame x-coordinate
+	 * @param y the new frame y-coordinate
 	 */
 	public final void setLocation(int x, int y) {
 		frame.setLocation(x, y);
@@ -176,6 +179,8 @@ public class OutputFrame {
 	}
 
 	/**
+	 * Sets the size of the frame and centers it on the screen.
+	 * 
 	 * @param width the new frame width
 	 * @param height the new frame height
 	 */
@@ -184,13 +189,6 @@ public class OutputFrame {
 		frame.setPreferredSize(size);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
-	}
-
-	/**
-	 * @param image the new frame icon image
-	 */
-	public final void setIconImage(Image image) {
-		frame.setIconImage(image);
 	}
 
 	/**

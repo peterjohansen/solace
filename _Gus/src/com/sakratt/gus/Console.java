@@ -7,7 +7,7 @@ import java.util.concurrent.CountDownLatch;
  * A console is a {@link Window} that only allows the user to enter text when requested by the
  * program.
  * <p>
- * Also contains useful methods for getting user input, a few of which are:
+ * Also contains useful methods for getting user input, a few of which are: <blockquote>
  * <ul>
  * <li>{@link #getBoolean(String)}</li>
  * <li>{@link #getChar(String)}</li>
@@ -15,6 +15,7 @@ import java.util.concurrent.CountDownLatch;
  * <li>{@link #getInt()}</li>
  * <li>{@link #getString()}</li>
  * </ul>
+ * </blockquote>
  * 
  * @author Peter André Johansen
  * 
@@ -22,12 +23,12 @@ import java.util.concurrent.CountDownLatch;
 public class Console extends Window {
 
 	private static final String DEFAULT_TITLE = "Console";
-	private static final int DEFAULT_SPEED = 0;
 	private static final String AWAITING_INTERACTION_TEXT = "Press any key to continue...";
-	private static final String[] YES_STRINGS =
-	{ "yes", "y", "1", "true" };
-	private static final String[] NO_STRINGS =
-	{ "no", "n", "0", "false" };
+
+	private static final int DEFAULT_SPEED = 0;
+
+	private static final String[] YES_STRINGS = { "yes", "y", "1", "true" };
+	private static final String[] NO_STRINGS = { "no", "n", "0", "false" };
 
 	/**
 	 * How many lines of input to remember.
@@ -62,21 +63,17 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Creates a new console with the given width and height.
-	 * 
-	 * @param width the width
-	 * @param height the height
+	 * @param width the width of the console
+	 * @param height the height of the console
 	 */
 	public Console(int width, int height) {
 		this(width, height, DEFAULT_TITLE);
 	}
 
 	/**
-	 * Creates a new console with the given width, height and title.
-	 * 
-	 * @param width the width
-	 * @param height the height
-	 * @param title the title
+	 * @param width the width of the console
+	 * @param height the height of the console
+	 * @param title the title of the console
 	 */
 	public Console(int width, int height, String title) {
 		super(width, height, title);
@@ -84,12 +81,11 @@ public class Console extends Window {
 		// Initialize
 		setAcceptUserInput(false);
 		setDisplaySpeed(DEFAULT_SPEED);
+
 	}
 
 	/**
-	 * Creates a new console with the given title.
-	 * 
-	 * @param title the title
+	 * @param title the title of the console
 	 */
 	public Console(String title) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
@@ -102,24 +98,24 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a boolean using common English strings for yes (<code>true</code>) or
-	 * no (<code>false</code>) answers.
+	 * Polls the console for a {@code boolean} using common English words for yes ({@code true}) or
+	 * no ({@code false}) answers.
 	 * 
-	 * @param error the message to display if the input is not recognized
-	 * @return true if the user entered a yes answer
+	 * @param error the message to print if the input is not recognized
+	 * @return {@code true} if the user entered a yes answer
 	 */
 	public boolean getBoolean(String error) {
 		return getBoolean(YES_STRINGS, NO_STRINGS, error);
 	}
 
 	/**
-	 * Polls the console for a boolean using the strings given for determining whether the input was
-	 * a yes (<code>true</code>) or no (<code>false</code>) answer.
+	 * Polls the console for a {@code boolean} using the given strings for determining whether the
+	 * input was a yes ({@code true}) or no ({@code false}) answer.
 	 * 
 	 * @param yesAnswers the yes answer strings
 	 * @param noAnswers the no answer strings
-	 * @param error the message to display if the input is not recognized
-	 * @return true if the user entered a yes answer
+	 * @param error the message to print if the input is not recognized
+	 * @return {@code true} if the user entered a yes answer
 	 */
 	public boolean getBoolean(String[] yesAnswers, String[] noAnswers, String error) {
 		while (true) {
@@ -135,16 +131,17 @@ public class Console extends Window {
 
 			// Notify user of invalid answer
 			println(error);
+
 		}
 	}
 
 	/**
-	 * Polls the console for a non-escaping <code>char</code> until a valid one has been given.
+	 * Polls the console for a non-escaping {@code char} until a valid one has been given.
 	 * 
-	 * @param min the lowest acceptable <code>char</code>
-	 * @param max the hightest acceptable <code>char</code>
-	 * @param error the message to display if the input is not an <code>char</code> or in range
-	 * @return the <code>char</code>
+	 * @param min the lowest acceptable {@code char}
+	 * @param max the highest acceptable {@code char}
+	 * @param error the message to print if the input is not a {@code char} or in range
+	 * @return the {@code char}
 	 */
 	public final char getChar(char min, char max, String error) {
 		char c = 0;
@@ -157,10 +154,10 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a non-escaping <code>char</code> until a valid one has been given.
+	 * Polls the console for a non-escaping {@code char} until a valid one has been given.
 	 * 
-	 * @param error the message to display if the input is not a non-escaping <code>char</code>
-	 * @return the <code>char</code>
+	 * @param error the message to print if the input is not a non-escaping {@code char}
+	 * @return the {@code char}
 	 */
 	public final char getChar(String error) {
 		String str = null;
@@ -173,28 +170,29 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return the speed in milliseconds each character in the output area will be displayed
+	 * @return the length of the interval in milliseconds between when each character is displayed
+	 *         in the output area
 	 */
 	public int getDisplaySpeed() {
 		return speed;
 	}
 
 	/**
-	 * Polls the console for a <code>double</code>.
+	 * Polls the console for a {@code double}.
 	 * 
-	 * @return the <code>double</code>
+	 * @return the {@code double}
 	 */
 	public final double getDouble() {
 		return Double.parseDouble(getString());
 	}
 
 	/**
-	 * Polls the console for a <code>double</code> until a valid one has been given.
+	 * Polls the console for a {@code double} until a valid one has been given.
 	 * 
 	 * @param min the minimum value
 	 * @param max the maximum value
-	 * @param error the message to display if the input is not a <code>double</code> or in range
-	 * @return the <code>double</code>
+	 * @param error the message to print if the input is not a {@code double} or in range
+	 * @return the {@code double}
 	 */
 	public final double getDouble(double min, double max, String error) {
 		double n = -1;
@@ -207,10 +205,10 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a <code>double</code> until a valid one has been given.
+	 * Polls the console for a {@code double} until a valid one has been given.
 	 * 
-	 * @param error the message to display if the input is not a <code>double</code>
-	 * @return the <code>double</code>
+	 * @param error the message to print if the input is not a {@code double}
+	 * @return the {@code double}
 	 */
 	public final double getDouble(String error) {
 		double n = -1;
@@ -226,21 +224,21 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for an <code>int</code>.
+	 * Polls the console for an {@code int}.
 	 * 
-	 * @return the <code>int</code>
+	 * @return the {@code int}
 	 */
 	public final int getInt() {
 		return Integer.parseInt(getString());
 	}
 
 	/**
-	 * Polls the console for an <code>int</code> until a valid one has been given.
+	 * Polls the console for an {@code int} until a valid one has been given.
 	 * 
 	 * @param min the minimum value
 	 * @param max the maximum value
-	 * @param error the message to display if the input is not an <code>int</code> or in range
-	 * @return the <code>int</code>
+	 * @param error the message to print if the input is not an {@code int} or in range
+	 * @return the {@code int}
 	 */
 	public final int getInt(int min, int max, String error) {
 		int n = -1;
@@ -253,10 +251,10 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for an <code>int</code> until a valid one has been given.
+	 * Polls the console for an {@code int} until a valid one has been given.
 	 * 
-	 * @param error the message to display if the input is not an <code>int</code>
-	 * @return the <code>int</code>
+	 * @param error the message to print if the input is not an {@code int}
+	 * @return the {@code int}
 	 */
 	public final int getInt(String error) {
 		int n = -1;
@@ -272,16 +270,16 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return the last received input or {@code null} if there is none
+	 * @return the last received input, or {@code null} if there is none
 	 */
 	private final String getLastInput() {
 		return (inputs.isEmpty() ? null : inputs.get(0));
 	}
 
 	/**
-	 * Polls the console for a <code>String</code>.
+	 * Polls the console for a {@code String}.
 	 * 
-	 * @return the <code>String</code>
+	 * @return the {@code String}
 	 */
 	public final String getString() {
 		setAcceptUserInput(true);
@@ -296,11 +294,11 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a <code>String</code> until one that matches the regex has been given.
+	 * Polls the console for a {@code String} until one that matches the given regex.
 	 * 
 	 * @param regex the regex
-	 * @param error the error message to display if the input does not match regex
-	 * @return the <code>String</code>
+	 * @param error the error message to display if the input does not match the regex
+	 * @return the {@code String}
 	 */
 	public final String getString(String regex, String error) {
 		String str = null;
@@ -313,7 +311,7 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return true if the console is waiting for input
+	 * @return whether the console is waiting for input
 	 */
 	public final boolean isWaitingForInput() {
 		return (latch != null);
@@ -322,21 +320,6 @@ public class Console extends Window {
 	@Override
 	protected final void keyWasPressed(int code) {
 		if (awatingInteraction) latch.countDown();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * Does nothing if input has not been requested.
-	 */
-	@Override
-	public final void receiveInput(String input) {
-		if (isWaitingForInput()) {
-			inputs.add(0, input);
-			int size = inputs.size();
-			if (size > INPUT_MEMORY_COUNT) inputs.remove(size - 1);
-			latch.countDown();
-		}
 	}
 
 	@Override
@@ -366,8 +349,23 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Sets the speed in milliseconds to display each character in the output area. A speed of less
-	 * than <code>0</code> will be set to <code>0</code>, which will instantly display the
+	 * {@inheritDoc}
+	 * <p>
+	 * Does nothing if input has not been requested.
+	 */
+	@Override
+	public final void receiveInput(String input) {
+		if (isWaitingForInput()) {
+			inputs.add(0, input);
+			int size = inputs.size();
+			if (size > INPUT_MEMORY_COUNT) inputs.remove(size - 1);
+			latch.countDown();
+		}
+	}
+
+	/**
+	 * Sets the length of the interval in milliseconds between when each character is displayed in
+	 * the output area. A negative speed will be set to {@code 0}, which will instantly display the
 	 * characters in the output area.
 	 * 
 	 * @param speed the speed
