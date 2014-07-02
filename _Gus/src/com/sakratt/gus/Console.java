@@ -333,7 +333,6 @@ public class Console extends Window {
 
 				// Attempt to print a character and sleep
 				for (; index < length; index++) {
-					if (index == 10) throw new InterruptedException();
 					super.print(str.charAt(index));
 					Thread.sleep(speed);
 				}
