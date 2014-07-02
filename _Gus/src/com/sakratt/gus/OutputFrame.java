@@ -110,6 +110,13 @@ public class OutputFrame {
 	}
 
 	/**
+	 * @return the text currently in the output area
+	 */
+	public String getOutputText() {
+		return outputArea.getText();
+	}
+
+	/**
 	 * Prints the given object to the output area.
 	 * 
 	 * @param o the object
