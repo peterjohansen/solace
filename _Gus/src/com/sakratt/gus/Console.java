@@ -327,12 +327,12 @@ public class Console extends Window {
 		if (speed == 0) super.print(o);
 		else {
 			String str = o.toString();
-			int len = str.length();
+			int length = str.length();
 			int index = 0;
 			try {
 
 				// Attempt to print a character and sleep
-				for (int i = 0; i < len; i++) {
+				for (int i = 0; i < length; i++) {
 					index = i;
 					super.print(str.charAt(i));
 					Thread.sleep(speed);
@@ -342,7 +342,7 @@ public class Console extends Window {
 				e.printStackTrace();
 
 				// Print out remaining characters
-				for (int i = index; i < len; i++)
+				for (int i = index; i < length; i++)
 					super.print(str.charAt(index));
 			}
 		}

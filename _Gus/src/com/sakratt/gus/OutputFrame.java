@@ -172,6 +172,13 @@ public class OutputFrame {
 	}
 
 	/**
+	 * @param focusable whether the output area should be focusable
+	 */
+	public void setOutputFocusable(boolean focusable) {
+		outputArea.setFocusable(focusable);
+	}
+
+	/**
 	 * @param font the new output area font
 	 */
 	public final void setOutputFont(Font font) {

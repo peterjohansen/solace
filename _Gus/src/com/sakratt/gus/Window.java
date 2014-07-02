@@ -17,7 +17,7 @@ import javax.swing.border.MatteBorder;
  * to enter text and the program to display text.
  * <p>
  * By default the input submitted will only be echoed back, but this can be changed by overriding
- * the {@link #receiveInput(String)} method.
+ * the {@link #receiveInput(String)}-method.
  * <p>
  * For a {@link Window} that uses polling input, see the {@link Console} class.
  * 
@@ -28,7 +28,7 @@ public class Window extends OutputFrame {
 
 	private static final String DEFAULT_TITLE = "Window";
 
-	JTextField inputArea;
+	final JTextField inputArea;
 
 	/**
 	 * Creates a new window.
@@ -58,11 +58,7 @@ public class Window extends OutputFrame {
 		MatteBorder outsideBorder = new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY);
 		EmptyBorder insideBorder = new EmptyBorder(5, 5, 5, 5);
 		inputArea.setBorder(new CompoundBorder(outsideBorder, insideBorder));
-		inputArea.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				submitInput();
-			}
-		});
+		inputArea.addActionListener(evt -> submitInput());
 		inputArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
@@ -72,9 +68,11 @@ public class Window extends OutputFrame {
 
 		// Frame
 		frame.add(inputArea, BorderLayout.SOUTH);
+		frame.revalidate();
 
 		// Initialize
 		setAcceptUserInput(true);
+		setOutputFocusable(false);
 	}
 
 	/**
@@ -106,9 +104,7 @@ public class Window extends OutputFrame {
 	protected void keyWasPressed(int code) {}
 
 	/**
-	 * This method gives the window input, either programmatically or from the user.
-	 * <p>
-	 * Prints the input to the output area by default.
+	 * This method feeds the window input, either programmatically or from the user.
 	 * 
 	 * @param input the input
 	 */
