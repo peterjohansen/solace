@@ -332,18 +332,18 @@ public class Console extends Window {
 			try {
 
 				// Attempt to print a character and sleep
-				for (int i = 0; i < length; i++) {
-					index = i;
-					super.print(str.charAt(i));
+				for (; index < length; index++) {
+					if (index == 10) throw new InterruptedException();
+					super.print(str.charAt(index));
 					Thread.sleep(speed);
 				}
 
-			} catch (Exception e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 
 				// Print out remaining characters
-				for (int i = index; i < length; i++)
-					super.print(str.charAt(index));
+				super.print(str.substring(index));
+
 			}
 		}
 	}
