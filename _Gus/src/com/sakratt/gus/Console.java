@@ -1,7 +1,5 @@
 package com.sakratt.gus;
 
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 /**
