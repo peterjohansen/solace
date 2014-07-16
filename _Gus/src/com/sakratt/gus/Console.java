@@ -285,7 +285,6 @@ public class Console extends Window {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		setAcceptUserInput(false);
 		return getLastInput();
 	}
 
@@ -353,6 +352,7 @@ public class Console extends Window {
 		if (isWaitingForInput()) {
 			lastInput = input;
 			latch.countDown();
+			setAcceptUserInput(false);
 		}
 	}
 
