@@ -1,5 +1,6 @@
 package com.sakratt.gus;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
@@ -31,14 +32,9 @@ public class Console extends Window {
 	private static final String[] NO_STRINGS = { "no", "n", "0", "false" };
 
 	/**
-	 * How many lines of input to remember.
+	 * The last input entered, or {@code null} if no input has been entered.
 	 */
-	private static final int INPUT_MEMORY_COUNT = 16;
-
-	/**
-	 * Contains the last submitted input values.
-	 */
-	private final ArrayList<String> inputs = new ArrayList<>();
+	private String lastInput;
 
 	/**
 	 * Used to pause the thread when {@link #getString()} is called.
@@ -270,10 +266,10 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return the last received input, or {@code null} if there is none
+	 * @return the last received input, or {@code null} if no input has been received
 	 */
-	private final String getLastInput() {
-		return (inputs.isEmpty() ? null : inputs.get(0));
+	public final String getLastInput() {
+		return lastInput;
 	}
 
 	/**
@@ -355,9 +351,7 @@ public class Console extends Window {
 	@Override
 	public final void receiveInput(String input) {
 		if (isWaitingForInput()) {
-			inputs.add(0, input);
-			int size = inputs.size();
-			if (size > INPUT_MEMORY_COUNT) inputs.remove(size - 1);
+			lastInput = input;
 			latch.countDown();
 		}
 	}

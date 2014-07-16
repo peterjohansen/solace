@@ -23,9 +23,10 @@ import javax.swing.text.DefaultCaret;
 public class OutputFrame {
 
 	private static final String DEFAULT_TITLE = "Output Frame";
+	private static final Font OUTPUT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
+
 	protected static final int DEFAULT_WIDTH = 600;
 	protected static final int DEFAULT_HEIGHT = 300;
-	private static final Font OUTPUT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
 
 	final JFrame frame;
 	private final JTextArea outputArea;
