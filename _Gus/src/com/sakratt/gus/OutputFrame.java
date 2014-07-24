@@ -169,9 +169,10 @@ public class OutputFrame {
 	 * 
 	 * @param count the amount of new lines
 	 */
-	public void printlns(int count) {
-		for (int i = 0; i < count; i++)
-			println();
+	public void printNewLines(int count) {
+		if (count < 0) throw new IllegalArgumentException("amount of new lines cannot be less than zero");
+		String str = new String(new char[count]).replace('\0', '\n');
+		print(str);
 	}
 
 	/**
