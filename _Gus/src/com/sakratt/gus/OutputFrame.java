@@ -165,6 +165,16 @@ public class OutputFrame {
 	}
 
 	/**
+	 * Prints the given amount of new lines.
+	 * 
+	 * @param count the amount of new lines
+	 */
+	public void printlns(int count) {
+		for (int i = 0; i < count; i++)
+			println();
+	}
+
+	/**
 	 * @param image the new frame icon image
 	 */
 	public final void setIconImage(Image image) {
