@@ -109,7 +109,8 @@ public class Console extends Window {
 
 	/**
 	 * Polls the console for a {@code boolean} using the given strings for determining whether the
-	 * input was a yes ({@code true}) or no ({@code false}) answer.
+	 * input was a yes ({@code true}) or no ({@code false}) answer. The case in the given strings
+	 * will be ignored.
 	 * 
 	 * @param yesAnswers the yes answer strings
 	 * @param noAnswers the no answer strings
