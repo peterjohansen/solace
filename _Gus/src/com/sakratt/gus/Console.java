@@ -22,7 +22,7 @@ import java.util.concurrent.CountDownLatch;
 public class Console extends Window {
 
 	private static final String DEFAULT_TITLE = "Console";
-	private static final String AWAITING_INTERACTION_TEXT = "Press any key to continue...";
+	private static final String DEFAULT_POLL_PROMPT = "Press any key to continue...";
 
 	private static final int DEFAULT_SPEED = 0;
 
@@ -385,23 +385,66 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console until any key is pressed and notifies the user.
+	 * Uses {@link #waitForKey(String, char...)} to wait for a single character.
+	 */
+	public final void waitForKey(char key, String error) {
+		waitForKey(error, key);
+	}
+
+	/**
+	 * Uses {@link #waitForKey(String, String, char...)} with a default prompt.
+	 * 
+	 * @param error the error message to display if a wrong key was pressed
+	 * @param keys the characters representing the keys that can be pressed
+	 */
+	public final void waitForKey(String error, char... keys) {
+		waitForKey(DEFAULT_POLL_PROMPT, error, keys);
+	}
+
+	/**
+	 * Prints the given string and polls the console until one of the given keys is pressed. If a
+	 * key not in the list is pressed, the given error message will be displayed and the user is
+	 * able to press a new key.
+	 * <p>
+	 * Not all characters can be pressed as a key, so use this method with caution.
+	 * 
+	 * @param prompt the text to display first
+	 * @param error the error message to display if a wrong key was pressed
+	 * @param keys the characters representing the keys that can be pressed
+	 */
+	public final void waitForKey(String prompt, String error, char... keys) {
+		println(prompt);
+		boolean done = false;
+		while (!done) {
+			waitForInteraction(null);
+			for (char key : keys) {
+				if (lastKey == key) {
+					done = true;
+					break;
+				}
+			}
+			if (!done) println(error);
+		}
+	}
+
+	/**
+	 * Uses {@link #waitForInteraction(String)} with a default prompt.
 	 * 
 	 * @return the character representing the key that was pressed
 	 */
 	public final char waitForInteraction() {
-		return waitForInteraction(AWAITING_INTERACTION_TEXT);
+		return waitForInteraction(DEFAULT_POLL_PROMPT);
 	}
 
 	/**
 	 * Prints the given string and then polls the console until any key is pressed. Does not print
-	 * anything if the given text is {@code null}.
+	 * anything if the given prompt is {@code null}.
 	 * 
-	 * @param text the text
+	 * @param prompt the text to display first
 	 * @return the character representing the key that was pressed
 	 */
-	public final char waitForInteraction(String text) {
-		if (text != null) println(text);
+	public final char waitForInteraction(String prompt) {
+		if (prompt != null) println(prompt);
 		awatingInteraction = true;
 		pause();
 		awatingInteraction = false;
