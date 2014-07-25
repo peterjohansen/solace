@@ -434,9 +434,10 @@ public class Console extends Window {
 	 * 
 	 * @param error the error message to display if a wrong key was pressed
 	 * @param keys the characters representing the keys that can be pressed
+	 * @return the key that was pressed
 	 */
-	public final void waitForKey(String error, char... keys) {
-		waitForKey(DEFAULT_POLL_PROMPT, error, keys);
+	public final char waitForKey(String error, char... keys) {
+		return waitForKey(DEFAULT_POLL_PROMPT, error, keys);
 	}
 
 	/**
@@ -449,8 +450,9 @@ public class Console extends Window {
 	 * @param prompt the text to display first
 	 * @param error the error message to display if a wrong key was pressed
 	 * @param keys the characters representing the keys that can be pressed
+	 * @return the key that was pressed
 	 */
-	public final void waitForKey(String prompt, String error, char... keys) {
+	public final char waitForKey(String prompt, String error, char... keys) {
 		println(prompt);
 		boolean done = false;
 		while (!done) {
@@ -463,5 +465,6 @@ public class Console extends Window {
 			}
 			if (!done) println(error);
 		}
+		return lastKey;
 	}
 }
