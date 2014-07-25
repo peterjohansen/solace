@@ -7,7 +7,7 @@ Gus provides the following types of GUI-windows:
   - [Window] - Display and read text
   - [Console] - Display and read text by polling
 
-The latest version of Gus is 1.0.0 and was released on 25.07.14.
+The latest version of Gus is 1.0 and was released on 25.07.14.
 
 ## The Console
 The main attraction in the library is the Console-class. It provides methods for outputting text, reading text by polling and several utility methods for reading different types of inputs. The examples below use this class. The examples should be read in chronological order as each example may rely on information from previous examples.
