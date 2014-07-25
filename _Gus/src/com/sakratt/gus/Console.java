@@ -143,13 +143,11 @@ public class Console extends Window {
 	 * @return the {@code char}
 	 */
 	public final char getChar(char min, char max, String error) {
-		char c = 0;
 		while (true) {
-			c = getChar(error);
+			char c = getChar(error);
 			if (c < min || c > max) println(error);
-			else break;
+			else return c;
 		}
-		return c;
 	}
 
 	/**
@@ -159,13 +157,11 @@ public class Console extends Window {
 	 * @return the {@code char}
 	 */
 	public final char getChar(String error) {
-		String str = null;
 		while (true) {
-			str = getString();
-			if (str.length() == 1) break;
+			String str = getString();
+			if (str.length() == 1) str.charAt(0);
 			else println(error);
 		}
-		return str.charAt(0);
 	}
 
 	/**
@@ -194,13 +190,11 @@ public class Console extends Window {
 	 * @return the {@code double}
 	 */
 	public final double getDouble(double min, double max, String error) {
-		double n = -1;
 		while (true) {
-			n = getDouble(error);
+			double n = getDouble(error);
 			if (n < min || n > max) println(error);
-			else break;
+			else return n;
 		}
-		return n;
 	}
 
 	/**
@@ -210,16 +204,13 @@ public class Console extends Window {
 	 * @return the {@code double}
 	 */
 	public final double getDouble(String error) {
-		double n = -1;
 		while (true) {
 			try {
-				n = getDouble();
-				break;
+				return getDouble();
 			} catch (Exception e) {
 				println(error);
 			}
 		}
-		return n;
 	}
 
 	/**
@@ -240,13 +231,11 @@ public class Console extends Window {
 	 * @return the {@code int}
 	 */
 	public final int getInt(int min, int max, String error) {
-		int n = -1;
 		while (true) {
-			n = getInt(error);
+			int n = getInt(error);
 			if (n < min || n > max) println(error);
-			else break;
+			else return n;
 		}
-		return n;
 	}
 
 	/**
@@ -256,16 +245,13 @@ public class Console extends Window {
 	 * @return the {@code int}
 	 */
 	public final int getInt(String error) {
-		int n = -1;
 		while (true) {
 			try {
-				n = getInt();
-				break;
+				return getInt();
 			} catch (Exception e) {
 				println(error);
 			}
 		}
-		return n;
 	}
 
 	/**
@@ -295,13 +281,11 @@ public class Console extends Window {
 	 * @return the {@code String}
 	 */
 	public final String getString(String regex, String error) {
-		String str = null;
 		while (true) {
-			str = getString();
-			if (str.matches(regex)) break;
+			String str = getString();
+			if (str.matches(regex)) return str;
 			else println(error);
 		}
-		return str;
 	}
 
 	/**
