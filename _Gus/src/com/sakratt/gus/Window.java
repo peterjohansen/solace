@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
@@ -56,13 +57,17 @@ public class Window extends OutputFrame {
 		MatteBorder outsideBorder = new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY);
 		EmptyBorder insideBorder = new EmptyBorder(5, 5, 5, 5);
 		inputArea.setBorder(new CompoundBorder(outsideBorder, insideBorder));
-		inputArea.addActionListener(evt -> submitInput());
-		inputArea.addKeyListener(new KeyAdapter() {
+		inputArea.addActionListener(evt -> sendTextFromInputArea());
+
+		// Add key listener to the window
+		KeyListener keyListener = new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
 				keyWasPressed(evt.getKeyCode());
 			}
-		});
+		};
+		inputArea.addKeyListener(keyListener);
+		frame.addKeyListener(keyListener); // Necessary for when the input area is disabled
 
 		// Frame
 		frame.add(inputArea, BorderLayout.SOUTH);
@@ -130,13 +135,7 @@ public class Window extends OutputFrame {
 	 */
 	public final void setAcceptUserInput(boolean accept) {
 		inputArea.setEnabled(accept);
-		inputArea.requestFocusInWindow();
-	}
-
-	/**
-	 * This method is called when the user tries to submit input.
-	 */
-	private void submitInput() {
-		sendTextFromInputArea();
+		if (accept) inputArea.requestFocusInWindow();
+		else frame.requestFocus();
 	}
 }

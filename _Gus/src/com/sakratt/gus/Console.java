@@ -277,17 +277,13 @@ public class Console extends Window {
 	 */
 	public final String getString() {
 		setAcceptUserInput(true);
-		latch = new CountDownLatch(1);
-		try {
-			latch.await();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		pause();
+		setAcceptUserInput(false);
 		return getLastInput();
 	}
 
 	/**
-	 * Polls the console for a {@code String} until one that matches the given regex.
+	 * Polls the console for a {@code String} until one that matches the given regex has been given.
 	 * 
 	 * @param regex the regex
 	 * @param error the error message to display if the input does not match the regex
@@ -312,7 +308,20 @@ public class Console extends Window {
 
 	@Override
 	protected final void keyWasPressed(int code) {
-		if (awatingInteraction) latch.countDown();
+		if (awatingInteraction) System.out.println("now");
+		if (awatingInteraction) resume();
+	}
+
+	/**
+	 * Pauses the thread until {@link #resume()} is called.
+	 */
+	private void pause() {
+		latch = new CountDownLatch(1);
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -320,12 +329,11 @@ public class Console extends Window {
 		if (speed == 0) super.print(o);
 		else {
 			String str = o.toString();
-			int length = str.length();
 			int index = 0;
 			try {
 
 				// Attempt to print a character and sleep
-				for (; index < length; index++) {
+				for (; index < str.length(); index++) {
 					super.print(str.charAt(index));
 					Thread.sleep(speed);
 				}
@@ -349,9 +357,15 @@ public class Console extends Window {
 	public final void receiveInput(String input) {
 		if (isWaitingForInput()) {
 			lastInput = input;
-			latch.countDown();
-			setAcceptUserInput(false);
+			resume();
 		}
+	}
+
+	/**
+	 * Resumes the thread.
+	 */
+	private void resume() {
+		latch.countDown();
 	}
 
 	/**
@@ -381,8 +395,7 @@ public class Console extends Window {
 	public final void waitForInteraction(String text) {
 		if (text != null) println(text);
 		awatingInteraction = true;
-		getString();
+		pause();
 		awatingInteraction = false;
-		clearInput();
 	}
 }
