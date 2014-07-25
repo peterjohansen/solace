@@ -51,14 +51,14 @@ console.println();
 console.println();
 console.println("\n\n\n\n\n\n\n\n\n");
 ```
-But that can often be tedious and hard to read. Even if you do use a loop, it is alot of unnecessary code for such a simple thing. Instead, use:
+But that can often be tedious and hard to read. Even if you do use a loop, it is a lot of unnecessary code for such a simple thing. Instead, use:
 ```Java
 console.printNewLines(5);
 ```
 It is easier to read and uses fewer lines of code to achieve the same goal.
 
 #### Clearing output
-If you want to get rid of what you already have outputted, you can use this method:
+If you want to get rid of what you already have output, you can use this method:
 ```Java
 console.clearOutput();
 ```
@@ -72,7 +72,7 @@ console.println("I am displayed one character at a time.");
 Be cautious, even though it might look cool, it can be very annoying.
 
 ### Reading input
-When reading input with the console the user is only allowed to enter input when you request it. This means that when requesting input the code will not continue to be executed until something has been inputted.
+When reading input with the console the user is only allowed to enter input when you request it. This means that when requesting input the code will not continue to be executed until something has been input.
 
 The console provides several methods for easily reading different types of input, but at its core, all input is text. Different types of input means parsing the text to get the desired type.
 
@@ -99,7 +99,7 @@ Fortunately, you don't have do this every time. Simply use:
 ```Java
 int myInt = console.getInt();
 ```
-This works fine as long you enter an actual integer. If you try entering a non-numerical character you will get an exception. To prevent invalid input, use this method:
+This works fine as long as you enter an actual integer. If you try entering a non-numerical character you will get an exception. To prevent invalid input, use this method:
 ```Java
 int myInt = console.getInt("That is not an integer.");
 ```
@@ -120,7 +120,7 @@ double d3 = console.getDouble(5.4, 10.2, "That is not a valid value");
 ```
 
 #### Reading characters
-Reading characters also works the same as when reading integers, except you can't read a character without providing an error message:
+Reading characters also works the same way as when reading integers, except you can't read a character without providing an error message:
 ```Java
 char c1 = console.getChar("That is not a character");
 char c2 = console.getChar('a', 'z', "That is not a lower case letter.");
@@ -160,7 +160,7 @@ What happens here is that the third line will pause the execution. The moment th
 ```Java
 console.waitForKey("Press a key on your keyboard to proceed.");
 ```
-There are also methods for prompting the user to press specific keys, but these will not covered here.
+There are also methods for prompting the user to press specific keys, but these will not covered be here.
 
 ## OutputFrame
 The output frame looks like the console, except is has no input area. Its sole purpose is to output text, and it does this the same way the console does.
