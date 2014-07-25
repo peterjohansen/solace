@@ -369,12 +369,12 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Uses {@link #waitForInteraction(String)} with a default prompt.
+	 * Uses {@link #waitForKey(String)} with a default prompt.
 	 * 
 	 * @return the character representing the key that was pressed
 	 */
-	public final char waitForInteraction() {
-		return waitForInteraction(DEFAULT_POLL_PROMPT);
+	public final char waitForKey() {
+		return waitForKey(DEFAULT_POLL_PROMPT);
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class Console extends Window {
 	 * @param prompt the text to display first
 	 * @return the character representing the key that was pressed
 	 */
-	public final char waitForInteraction(String prompt) {
+	public final char waitForKey(String prompt) {
 		if (prompt != null) println(prompt);
 		awatingInteraction = true;
 		pause();
@@ -440,7 +440,7 @@ public class Console extends Window {
 		println(prompt);
 		boolean done = false;
 		while (!done) {
-			waitForInteraction(null);
+			waitForKey(null);
 			for (char key : keys) {
 				if (lastKey == key) {
 					done = true;
