@@ -26,8 +26,8 @@ public class Console extends Window {
 
 	private static final int DEFAULT_SPEED = 0;
 
-	private static final String[] YES_STRINGS = { "yes", "y", "1", "true" };
-	private static final String[] NO_STRINGS = { "no", "n", "0", "false" };
+	private static final String[] YES_STRINGS = { "yes", "y", "true", "t", "1", };
+	private static final String[] NO_STRINGS = { "no", "n", "false", "f", "0" };
 
 	/**
 	 * The last input entered, or {@code null} if no input has been entered.
