@@ -385,10 +385,48 @@ public class Console extends Window {
 	}
 
 	/**
+	 * Uses {@link #waitForInteraction(String)} with a default prompt.
+	 * 
+	 * @return the character representing the key that was pressed
+	 */
+	public final char waitForInteraction() {
+		return waitForInteraction(DEFAULT_POLL_PROMPT);
+	}
+
+	/**
+	 * Prints the given string and then polls the console until any key is pressed. Does not print
+	 * anything if the given prompt is {@code null}.
+	 * 
+	 * @param prompt the text to display first
+	 * @return the character representing the key that was pressed
+	 */
+	public final char waitForInteraction(String prompt) {
+		if (prompt != null) println(prompt);
+		awatingInteraction = true;
+		pause();
+		awatingInteraction = false;
+		return lastKey;
+	}
+
+	/**
 	 * Uses {@link #waitForKey(String, char...)} to wait for a single character.
+	 * 
+	 * @param key the character representing the key that can be pressed
+	 * @param error the error message to display if a wrong key was pressed
 	 */
 	public final void waitForKey(char key, String error) {
 		waitForKey(error, key);
+	}
+
+	/**
+	 * Uses {@link #waitForKey(String, String, char...)} to wait for a single character.
+	 * 
+	 * @param key the character representing the key that can be pressed
+	 * @param prompt the text to display first
+	 * @param error the error message to display if a wrong key was pressed
+	 */
+	public final void waitForKey(char key, String prompt, String error) {
+		waitForKey(prompt, error, key);
 	}
 
 	/**
@@ -425,29 +463,5 @@ public class Console extends Window {
 			}
 			if (!done) println(error);
 		}
-	}
-
-	/**
-	 * Uses {@link #waitForInteraction(String)} with a default prompt.
-	 * 
-	 * @return the character representing the key that was pressed
-	 */
-	public final char waitForInteraction() {
-		return waitForInteraction(DEFAULT_POLL_PROMPT);
-	}
-
-	/**
-	 * Prints the given string and then polls the console until any key is pressed. Does not print
-	 * anything if the given prompt is {@code null}.
-	 * 
-	 * @param prompt the text to display first
-	 * @return the character representing the key that was pressed
-	 */
-	public final char waitForInteraction(String prompt) {
-		if (prompt != null) println(prompt);
-		awatingInteraction = true;
-		pause();
-		awatingInteraction = false;
-		return lastKey;
 	}
 }
