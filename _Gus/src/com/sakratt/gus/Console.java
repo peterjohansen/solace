@@ -35,6 +35,11 @@ public class Console extends Window {
 	private String lastInput;
 
 	/**
+	 * The character representing the last key pressed.
+	 */
+	private char lastKey;
+
+	/**
 	 * Used to pause the thread when {@link #getString()} is called.
 	 */
 	private CountDownLatch latch;
@@ -308,7 +313,7 @@ public class Console extends Window {
 
 	@Override
 	protected final void keyWasPressed(int code) {
-		if (awatingInteraction) System.out.println("now");
+		this.lastKey = (char) code;
 		if (awatingInteraction) resume();
 	}
 
@@ -381,9 +386,11 @@ public class Console extends Window {
 
 	/**
 	 * Polls the console until any key is pressed and notifies the user.
+	 * 
+	 * @return the character representing the key that was pressed
 	 */
-	public final void waitForInteraction() {
-		waitForInteraction(AWAITING_INTERACTION_TEXT);
+	public final char waitForInteraction() {
+		return waitForInteraction(AWAITING_INTERACTION_TEXT);
 	}
 
 	/**
@@ -391,11 +398,13 @@ public class Console extends Window {
 	 * anything if the given text is {@code null}.
 	 * 
 	 * @param text the text
+	 * @return the character representing the key that was pressed
 	 */
-	public final void waitForInteraction(String text) {
+	public final char waitForInteraction(String text) {
 		if (text != null) println(text);
 		awatingInteraction = true;
 		pause();
 		awatingInteraction = false;
+		return lastKey;
 	}
 }
