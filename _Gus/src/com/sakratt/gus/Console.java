@@ -160,7 +160,7 @@ public class Console extends Window {
 	public final char getChar(String error) {
 		while (true) {
 			String str = getString();
-			if (str.length() == 1) str.charAt(0);
+			if (str.length() == 1) return str.charAt(0);
 			else println(error);
 		}
 	}
