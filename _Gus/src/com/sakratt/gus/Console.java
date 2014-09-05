@@ -22,9 +22,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public class Console extends Window {
 
+	/** Default prompt for the {@link #waitForKey()}-methods. */
+	public static final String DEFAULT_POLL_PROMPT = "Press any key to continue...";
+	
 	private static final String DEFAULT_TITLE = "Console";
-	private static final String DEFAULT_POLL_PROMPT = "Press any key to continue...";
-
 	private static final int DEFAULT_SPEED = 0;
 
 	private static final String[] YES_STRINGS = { "yes", "y", "true", "t", "1", };
@@ -381,12 +382,12 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Uses {@link #waitForKey(String)} with a default prompt.
+	 * Uses {@link #waitForKey(String)} with no prompt.
 	 * 
 	 * @return the character representing the key that was pressed
 	 */
 	public final char waitForKey() {
-		return waitForKey(DEFAULT_POLL_PROMPT);
+		return waitForKey(null);
 	}
 
 	/**
@@ -415,43 +416,18 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Uses {@link #waitForKey(String, String, char...)} to wait for a single
-	 * character.
-	 * 
-	 * @param key the character representing the key that can be pressed
-	 * @param prompt the text to display first
-	 * @param error the error message to display if a wrong key was pressed
-	 */
-	public final void waitForKey(char key, String prompt, String error) {
-		waitForKey(prompt, error, key);
-	}
-
-	/**
-	 * Uses {@link #waitForKey(String, String, char...)} with a default prompt.
+	 * Polls the console until one of the given keys is pressed. If a key not in
+	 * the list is pressed, the given error message will be displayed and the
+	 * user is able to press a new key.
+	 * <p>
+	 * Not all characters can be pressed as a key, so use this method with
+	 * caution.
 	 * 
 	 * @param error the error message to display if a wrong key was pressed
 	 * @param keys the characters representing the keys that can be pressed
 	 * @return the key that was pressed
 	 */
 	public final char waitForKey(String error, char... keys) {
-		return waitForKey(DEFAULT_POLL_PROMPT, error, keys);
-	}
-
-	/**
-	 * Prints the given string and polls the console until one of the given keys
-	 * is pressed. If a key not in the list is pressed, the given error message
-	 * will be displayed and the user is able to press a new key.
-	 * <p>
-	 * Not all characters can be pressed as a key, so use this method with
-	 * caution.
-	 * 
-	 * @param prompt the text to display first
-	 * @param error the error message to display if a wrong key was pressed
-	 * @param keys the characters representing the keys that can be pressed
-	 * @return the key that was pressed
-	 */
-	public final char waitForKey(String prompt, String error, char... keys) {
-		println(prompt);
 		boolean done = false;
 		while (!done) {
 			waitForKey(null);
