@@ -139,7 +139,8 @@ public class OutputFrame {
 	}
 
 	/**
-	 * Prints a formatted string using the given format string and arguments to the output area.
+	 * Prints a formatted string using the given format string and arguments to
+	 * the output area.
 	 * 
 	 * @param format the format
 	 * @param args the arguments

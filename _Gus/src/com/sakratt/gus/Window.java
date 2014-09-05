@@ -12,11 +12,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 /**
- * A window is a graphical user interface consisting of an input and output area, allowing the user
- * to enter text and the program to display text.
+ * A window is a graphical user interface consisting of an input and output
+ * area, allowing the user to enter text and the program to display text.
  * <p>
- * By default the input submitted will only be echoed back, but this can be changed by overriding
- * the {@link #receiveInput(String)}-method.
+ * By default the input submitted will only be echoed back, but this can be
+ * changed by overriding the {@link #receiveInput(String)}-method.
  * <p>
  * For a {@link Window} that uses polling input, see the {@link Console} class.
  * 
@@ -67,7 +67,8 @@ public class Window extends OutputFrame {
 			}
 		};
 		inputArea.addKeyListener(keyListener);
-		frame.addKeyListener(keyListener); // Necessary for when the input area is disabled
+		frame.addKeyListener(keyListener); // Necessary for when the input area
+											// is disabled
 
 		// Frame
 		frame.add(inputArea, BorderLayout.SOUTH);
@@ -107,7 +108,8 @@ public class Window extends OutputFrame {
 	protected void keyWasPressed(int code) {}
 
 	/**
-	 * This method feeds the window input, either programmatically or from the user.
+	 * This method feeds the window input, either programmatically or from the
+	 * user.
 	 * 
 	 * @param input the input
 	 */
@@ -116,8 +118,8 @@ public class Window extends OutputFrame {
 	}
 
 	/**
-	 * Passes on the text in the input area to the {@link #receiveInput(String)} method and clears
-	 * the input area.
+	 * Passes on the text in the input area to the {@link #receiveInput(String)}
+	 * method and clears the input area.
 	 */
 	private void sendTextFromInputArea() {
 		String text = inputArea.getText();
@@ -129,7 +131,8 @@ public class Window extends OutputFrame {
 	}
 
 	/**
-	 * Sets whether to accept user input. The input area will be disabled if input is not accepted.
+	 * Sets whether to accept user input. The input area will be disabled if
+	 * input is not accepted.
 	 * 
 	 * @param accept whether to accept user input
 	 */

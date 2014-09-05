@@ -3,10 +3,11 @@ package com.sakratt.gus;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * A console is a {@link Window} that only allows the user to enter text when requested by the
- * program.
+ * A console is a {@link Window} that only allows the user to enter text when
+ * requested by the program.
  * <p>
- * Also contains useful methods for getting user input, a few of which are: <blockquote>
+ * Also contains useful methods for getting user input, a few of which are:
+ * <blockquote>
  * <ul>
  * <li>{@link #getBoolean(String)}</li>
  * <li>{@link #getChar(String)}</li>
@@ -97,8 +98,8 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a {@code boolean} using common English words for yes ({@code true}) or
-	 * no ({@code false}) answers.
+	 * Polls the console for a {@code boolean} using common English words for
+	 * yes ({@code true}) or no ({@code false}) answers.
 	 * 
 	 * @param error the message to print if the input is not recognized
 	 * @return {@code true} if the user entered a yes answer
@@ -108,9 +109,9 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a {@code boolean} using the given strings for determining whether the
-	 * input was a yes ({@code true}) or no ({@code false}) answer. The case in the given strings
-	 * will be ignored.
+	 * Polls the console for a {@code boolean} using the given strings for
+	 * determining whether the input was a yes ({@code true}) or no (
+	 * {@code false}) answer. The case in the given strings will be ignored.
 	 * 
 	 * @param yesAnswers the yes answer strings
 	 * @param noAnswers the no answer strings
@@ -136,11 +137,13 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a non-escaping {@code char} until a valid one has been given.
+	 * Polls the console for a non-escaping {@code char} until a valid one has
+	 * been given.
 	 * 
 	 * @param min the lowest acceptable {@code char}
 	 * @param max the highest acceptable {@code char}
-	 * @param error the message to print if the input is not a {@code char} or in range
+	 * @param error the message to print if the input is not a {@code char} or
+	 *            in range
 	 * @return the {@code char}
 	 */
 	public final char getChar(char min, char max, String error) {
@@ -152,9 +155,11 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a non-escaping {@code char} until a valid one has been given.
+	 * Polls the console for a non-escaping {@code char} until a valid one has
+	 * been given.
 	 * 
-	 * @param error the message to print if the input is not a non-escaping {@code char}
+	 * @param error the message to print if the input is not a non-escaping
+	 *            {@code char}
 	 * @return the {@code char}
 	 */
 	public final char getChar(String error) {
@@ -166,8 +171,8 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return the length of the interval in milliseconds between when each character is displayed
-	 *         in the output area
+	 * @return the length of the interval in milliseconds between when each
+	 *         character is displayed in the output area
 	 */
 	public int getDisplaySpeed() {
 		return speed;
@@ -187,7 +192,8 @@ public class Console extends Window {
 	 * 
 	 * @param min the minimum value
 	 * @param max the maximum value
-	 * @param error the message to print if the input is not a {@code double} or in range
+	 * @param error the message to print if the input is not a {@code double} or
+	 *            in range
 	 * @return the {@code double}
 	 */
 	public final double getDouble(double min, double max, String error) {
@@ -228,7 +234,8 @@ public class Console extends Window {
 	 * 
 	 * @param min the minimum value
 	 * @param max the maximum value
-	 * @param error the message to print if the input is not an {@code int} or in range
+	 * @param error the message to print if the input is not an {@code int} or
+	 *            in range
 	 * @return the {@code int}
 	 */
 	public final int getInt(int min, int max, String error) {
@@ -256,7 +263,8 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return the last received input, or {@code null} if no input has been received
+	 * @return the last received input, or {@code null} if no input has been
+	 *         received
 	 */
 	public final String getLastInput() {
 		return lastInput;
@@ -275,10 +283,12 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for a {@code String} until one that matches the given regex has been given.
+	 * Polls the console for a {@code String} until one that matches the given
+	 * regex has been given.
 	 * 
 	 * @param regex the regex
-	 * @param error the error message to display if the input does not match the regex
+	 * @param error the error message to display if the input does not match the
+	 *            regex
 	 * @return the {@code String}
 	 */
 	public final String getString(String regex, String error) {
@@ -359,9 +369,10 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Sets the length of the interval in milliseconds between when each character is displayed in
-	 * the output area. A negative speed will be set to {@code 0}, which will instantly display the
-	 * characters in the output area.
+	 * Sets the length of the interval in milliseconds between when each
+	 * character is displayed in the output area. A negative speed will be set
+	 * to {@code 0}, which will instantly display the characters in the output
+	 * area.
 	 * 
 	 * @param speed the speed
 	 */
@@ -379,8 +390,8 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Prints the given string and then polls the console until any key is pressed. Does not print
-	 * anything if the given prompt is {@code null}.
+	 * Prints the given string and then polls the console until any key is
+	 * pressed. Does not print anything if the given prompt is {@code null}.
 	 * 
 	 * @param prompt the text to display first
 	 * @return the character representing the key that was pressed
@@ -404,7 +415,8 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Uses {@link #waitForKey(String, String, char...)} to wait for a single character.
+	 * Uses {@link #waitForKey(String, String, char...)} to wait for a single
+	 * character.
 	 * 
 	 * @param key the character representing the key that can be pressed
 	 * @param prompt the text to display first
@@ -426,11 +438,12 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Prints the given string and polls the console until one of the given keys is pressed. If a
-	 * key not in the list is pressed, the given error message will be displayed and the user is
-	 * able to press a new key.
+	 * Prints the given string and polls the console until one of the given keys
+	 * is pressed. If a key not in the list is pressed, the given error message
+	 * will be displayed and the user is able to press a new key.
 	 * <p>
-	 * Not all characters can be pressed as a key, so use this method with caution.
+	 * Not all characters can be pressed as a key, so use this method with
+	 * caution.
 	 * 
 	 * @param prompt the text to display first
 	 * @param error the error message to display if a wrong key was pressed
