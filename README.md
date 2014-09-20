@@ -63,14 +63,6 @@ If you want to get rid of what you already have output, you can use this method:
 console.clearOutput();
 ```
 
-#### Slowly displaying output
-Although not often useful, you have the option to gradually display anything you print:
-```Java
-console.setDisplaySpeed(50); // 50 ms between each character
-console.println("I am displayed one character at a time.");
-```
-Be cautious, even though it might look cool, it can be very annoying.
-
 ### Reading input
 When reading input with the console the user is only allowed to enter input when you request it. This means that when requesting input the code will not continue to be executed until something has been input.
 
@@ -95,7 +87,7 @@ When you want to read an integer, what you really want to do is read a string an
 String input = console.getString();
 int myInt = Integer.parseInt(input);
 ```
-Fortunately, you don't have do this every time. Simply use:
+Fortunately, you don't have do this manually every time. Simply use:
 ```Java
 int myInt = console.getInt();
 ```
@@ -109,7 +101,7 @@ You can also restrict the input to a specific range by inserting two more parame
 ```Java
 int age = getInt(0, 124, "That is not a valid age!");
 ```
-This will let the user only enter an integer with a value in the open interval [0, 124].
+This will let the user only enter an integer with a value in the closed interval [0, 124].
 
 #### Reading a double
 Reading a double works exactly like reading an integer, except the methods have different names:
@@ -120,7 +112,7 @@ double d3 = console.getDouble(5.4, 10.2, "That is not a valid value");
 ```
 
 #### Reading characters
-Reading characters also works the same way as when reading integers, except you can't read a character without providing an error message:
+Reading characters also works the same way as when reading integers (except you can't read a character without providing an error message):
 ```Java
 char c1 = console.getChar("That is not a character");
 char c2 = console.getChar('a', 'z', "That is not a lower case letter.");
