@@ -126,7 +126,7 @@ boolean myBool = console.getBoolean("I didn't understand. Enter yes or no.");
 This works by comparing the answer to a few preset English words for saying yes and no. You can provide your own strings for parsing the input to a boolean:
 ```Java
 String[] yes = {"yes", "1", "true", "yep"}
-String[] no = {"no", 0, "false", "nope");
+String[] no = {"no", "0", "false", "nope");
 boolean myBool = console.getBoolean(yes, no, "I don't understand. Try again.");
 ```
 The method will ignore the case, so you don't have to repeat every word in upper case.
