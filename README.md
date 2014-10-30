@@ -9,7 +9,7 @@ Gus provides the following types of GUI-windows:
 
 The latest version of Gus is 1.0 and was released on 25.07.14 (dd.mm.yy).
 
-Downloads
+### Downloads
  - [Gus](https://github.com/peterjohansen/Gus/raw/master/gus-1.0.jar)
  - [Source](https://github.com/peterjohansen/Gus/raw/master/gus-1.0-source.jar)
  - [Demo (hangman)](https://github.com/peterjohansen/Gus/raw/master/gus-hangman-demo.jar)
