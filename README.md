@@ -1,5 +1,5 @@
 # About Gus
-Gus is a lightweight, cross-platform Java library that provides GUI for simple text applications. The three classes it provides can be used to output text, read text from the user either by request (polling) or by events.
+Gus is a lightweight Java library that provides GUI for simple text applications. The three classes it provides can be used to output text, read text from the user either by request (polling) or by events.
 
 Gus provides the following types of GUI-windows:
 
