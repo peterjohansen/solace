@@ -24,7 +24,7 @@ public class Console extends Window {
 
 	/** Default prompt for the {@link #waitForKey()}-methods. */
 	public static final String DEFAULT_POLL_PROMPT = "Press any key to continue...";
-	
+
 	private static final String DEFAULT_TITLE = "Console";
 	private static final int DEFAULT_SPEED = 0;
 
@@ -418,6 +418,16 @@ public class Console extends Window {
 	}
 
 	/**
+	 * Uses {@link #waitForKey(String, char...)} to wait for a single character.
+	 * 
+	 * @param key the character representing the key that can be pressed
+	 * @param error the error message to display if a wrong key was pressed
+	 */
+	public final void waitForKey(char key, String error) {
+		waitForKey(error, key);
+	}
+
+	/**
 	 * Prints the given string and then polls the console until any key is
 	 * pressed. Does not print anything if the given prompt is {@code null}.
 	 * 
@@ -430,16 +440,6 @@ public class Console extends Window {
 		pause();
 		awatingInteraction = false;
 		return lastKey;
-	}
-
-	/**
-	 * Uses {@link #waitForKey(String, char...)} to wait for a single character.
-	 * 
-	 * @param key the character representing the key that can be pressed
-	 * @param error the error message to display if a wrong key was pressed
-	 */
-	public final void waitForKey(char key, String error) {
-		waitForKey(error, key);
 	}
 
 	/**

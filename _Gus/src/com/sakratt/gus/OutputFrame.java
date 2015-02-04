@@ -133,8 +133,8 @@ public class OutputFrame {
 	}
 
 	/**
-	 * Prints a formatted string using the given locale, format string and arguments to the output
-	 * area.
+	 * Prints a formatted string using the given locale, format string and
+	 * arguments to the output area.
 	 * 
 	 * @param locale the locale
 	 * @param format the format
