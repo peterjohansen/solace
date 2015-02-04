@@ -52,6 +52,12 @@ public class OutputFrame {
 	 * @param title the title of the frame
 	 */
 	public OutputFrame(int width, int height, String title) {
+		if (width < 0) {
+			throw new IllegalArgumentException("the width must be greater than zero");
+		}
+		if (height < 0) {
+			throw new IllegalArgumentException("the height must be greater than zero");
+		}
 
 		// Output area
 		outputArea = new JTextArea();
@@ -135,7 +141,7 @@ public class OutputFrame {
 	 * @param args the arguments
 	 */
 	public void printf(Locale locale, String format, Object... args) {
-		printf(locale, String.format(format, args));
+		print(String.format(locale, format, args));
 	}
 
 	/**
@@ -171,7 +177,9 @@ public class OutputFrame {
 	 * @param count the amount of new lines
 	 */
 	public void printNewLines(int count) {
-		if (count < 0) throw new IllegalArgumentException("amount of new lines cannot be less than zero");
+		if (count < 0) {
+			throw new IllegalArgumentException("amount of new lines cannot be less than zero");
+		}
 		print(new String(new char[count]).replace('\0', '\n'));
 	}
 

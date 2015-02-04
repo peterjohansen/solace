@@ -120,6 +120,12 @@ public class Console extends Window {
 	 * @return {@code true} if the user entered a yes answer
 	 */
 	public boolean getBoolean(String[] yesAnswers, String[] noAnswers, String error) {
+		if (yesAnswers == null) {
+			throw new NullPointerException("array of yes-answers cannot be null");
+		}
+		if (noAnswers == null) {
+			throw new NullPointerException("array of no-answers cannot be null");
+		}
 		while (true) {
 			String answer = getString();
 
@@ -148,6 +154,12 @@ public class Console extends Window {
 	 * @return the {@code char}
 	 */
 	public final char getChar(char min, char max, String error) {
+		if (min < 0) {
+			throw new IllegalArgumentException("the lowest acceptable char cannot be less than zero");
+		}
+		if (max < min) {
+			throw new IllegalArgumentException("the highest accetable char cannot be less than the lowest one");
+		}
 		while (true) {
 			char c = getChar(error);
 			if (c < min || c > max) println(error);
@@ -198,6 +210,12 @@ public class Console extends Window {
 	 * @return the {@code double}
 	 */
 	public final double getDouble(double min, double max, String error) {
+		if (min < 0) {
+			throw new IllegalArgumentException("the minimum value cannot be less than zero");
+		}
+		if (max < min) {
+			throw new IllegalArgumentException("the maximum value cannot be less than the minimum one");
+		}
 		while (true) {
 			double n = getDouble(error);
 			if (n < min || n > max) println(error);
@@ -240,6 +258,12 @@ public class Console extends Window {
 	 * @return the {@code int}
 	 */
 	public final int getInt(int min, int max, String error) {
+		if (min < 0) {
+			throw new IllegalArgumentException("the minimum value cannot be less than zero");
+		}
+		if (max < min) {
+			throw new IllegalArgumentException("the maximum value cannot be less than the minimum one");
+		}
 		while (true) {
 			int n = getInt(error);
 			if (n < min || n > max) println(error);
@@ -293,6 +317,9 @@ public class Console extends Window {
 	 * @return the {@code String}
 	 */
 	public final String getString(String regex, String error) {
+		if (regex == null) {
+			throw new NullPointerException("the regex cannot be null");
+		}
 		while (true) {
 			String str = getString();
 			if (str.matches(regex)) return str;
