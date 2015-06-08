@@ -2,5 +2,6 @@
 .classpath
 .project
 .settings/
-hs_err_pid*
+.gradle
 .dropbox
+hs_err_pid*
