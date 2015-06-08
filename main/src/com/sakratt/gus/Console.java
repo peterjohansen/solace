@@ -360,7 +360,6 @@ public class Console extends Window {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					Console.super.setAcceptUserInput(false);
 					int index = 0;
 					try {
 
@@ -377,9 +376,8 @@ public class Console extends Window {
 						Console.super.print(str.substring(index));
 
 					}
-					Console.super.setAcceptUserInput(true);
 				}
-			});
+			}).start();;
 		}
 	}
 
