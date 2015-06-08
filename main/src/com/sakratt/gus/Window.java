@@ -67,8 +67,8 @@ public class Window extends OutputFrame {
 			}
 		};
 		inputArea.addKeyListener(keyListener);
-		frame.addKeyListener(keyListener); // Necessary for when the input area
-											// is disabled
+		frame.addKeyListener(keyListener); // Necessary for when the
+											// input area is disabled
 
 		// Frame
 		frame.add(inputArea, BorderLayout.SOUTH);
@@ -131,8 +131,7 @@ public class Window extends OutputFrame {
 	}
 
 	/**
-	 * Sets whether to accept user input. The input area will be disabled if
-	 * input is not accepted.
+	 * The input area will be disabled if input is not accepted.
 	 * 
 	 * @param accept whether to accept user input
 	 */

@@ -125,8 +125,6 @@ public class OutputFrame {
 
 	/**
 	 * Prints the given object to the output area.
-	 * 
-	 * @param o the object
 	 */
 	public void print(Object o) {
 		outputArea.append(o.toString());
@@ -135,10 +133,6 @@ public class OutputFrame {
 	/**
 	 * Prints a formatted string using the given locale, format string and
 	 * arguments to the output area.
-	 * 
-	 * @param locale the locale
-	 * @param format the format
-	 * @param args the arguments
 	 */
 	public void printf(Locale locale, String format, Object... args) {
 		print(String.format(locale, format, args));
@@ -147,9 +141,6 @@ public class OutputFrame {
 	/**
 	 * Prints a formatted string using the given format string and arguments to
 	 * the output area.
-	 * 
-	 * @param format the format
-	 * @param args the arguments
 	 */
 	public void printf(String format, Object... args) {
 		print(String.format(format, args));
@@ -164,8 +155,6 @@ public class OutputFrame {
 
 	/**
 	 * Prints the given object and a new line to the output area.
-	 * 
-	 * @param o the object
 	 */
 	public void println(Object o) {
 		print(o + "\n");
@@ -173,8 +162,6 @@ public class OutputFrame {
 
 	/**
 	 * Prints the given amount of new lines.
-	 * 
-	 * @param count the amount of new lines
 	 */
 	public void printNewLines(int count) {
 		if (count < 0) {
