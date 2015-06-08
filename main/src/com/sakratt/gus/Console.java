@@ -356,23 +356,30 @@ public class Console extends Window {
 	public final void print(Object o) {
 		if (speed == 0) super.print(o);
 		else {
-			String str = o.toString();
-			int index = 0;
-			try {
+			final String str = o.toString();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Console.super.setAcceptUserInput(false);
+					int index = 0;
+					try {
 
-				// Attempt to print a character and sleep
-				for (; index < str.length(); index++) {
-					super.print(str.charAt(index));
-					Thread.sleep(speed);
+						// Attempt to print a character and sleep
+						for (; index < str.length(); index++) {
+							Console.super.print(str.charAt(index));
+							Thread.sleep(speed);
+						}
+
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+
+						// Print out remaining characters
+						Console.super.print(str.substring(index));
+
+					}
+					Console.super.setAcceptUserInput(true);
 				}
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-
-				// Print out remaining characters
-				super.print(str.substring(index));
-
-			}
+			});
 		}
 	}
 
