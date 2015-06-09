@@ -137,6 +137,13 @@ public class Window extends OutputFrame {
 	}
 
 	/**
+	 * Selects the text in the input area.
+	 */
+	public void selectInput() {
+		inputArea.selectAll();
+	}
+	
+	/**
 	 * Passes on the text in the input area to the {@link #receiveInput(String)}
 	 * method and clears the input area.
 	 */
@@ -158,5 +165,13 @@ public class Window extends OutputFrame {
 		inputArea.setEnabled(accept);
 		if (accept) inputArea.requestFocusInWindow();
 		else frame.requestFocus();
+	}
+
+	/**
+	 * Sets the current input to the given value, replacing any value that was
+	 * there.
+	 */
+	public void setCurrentInput(String text) {
+		inputArea.setText(text);
 	}
 }
