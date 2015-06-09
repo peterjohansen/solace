@@ -97,6 +97,13 @@ public class Window extends OutputFrame {
 	}
 
 	/**
+	 * @return the text that currently is in the input area
+	 */
+	public String getCurrentInput() {
+		return inputArea.getText();
+	}
+
+	/**
 	 * Internally used for key presses.
 	 * 
 	 * @param code the key code
