@@ -1,21 +1,16 @@
 # About Gus
-Gus provides the following types of windows for text applications:
+Gus provides the following types of windows for text applications in Java:
 
-  - [OutputFrame] - Display text
-  - [Window] - Display and read text
-  - [Console] - Display and read text by polling
+  - OutputFrame - Display text
+  - Window - Display and read text
+  - Console - Display and read text by polling
 
 The latest version of Gus is 1.1.0.
 
-### Downloads
- - [Latest version](https://github.com/peterjohansen/Gus/raw/master/gus-1-0-1.jar)
- - [Source](https://github.com/peterjohansen/Gus/raw/master/gus-1-0-1-source.jar)
+### Download
+ - [Latest version](https://github.com/peterjohansen/gus/blob/master/dist/gus-1.1.0.jar?raw=true) ([source](https://github.com/peterjohansen/gus/blob/master/dist/gus-1.1.0-source.jar?raw=true))
 
 License
 ----
 
 MIT
-
-[OutputFrame]:#OutputFrame
-[Window]:#Window
-[Console]:#Console
