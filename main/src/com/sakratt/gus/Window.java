@@ -2,9 +2,11 @@ package com.sakratt.gus;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Collections;
 
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
@@ -58,12 +60,13 @@ public class Window extends OutputFrame {
 		EmptyBorder insideBorder = new EmptyBorder(5, 5, 5, 5);
 		inputArea.setBorder(new CompoundBorder(outsideBorder, insideBorder));
 		inputArea.addActionListener(evt -> sendTextFromInputArea());
+		inputArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.emptySet());
 
 		// Add key listener to the window
 		KeyListener keyListener = new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
-				keyWasPressed(evt.getKeyCode());
+				internalKeyWasPressed(evt.getKeyCode());
 			}
 		};
 		inputArea.addKeyListener(keyListener);
@@ -91,6 +94,15 @@ public class Window extends OutputFrame {
 	 */
 	protected void clearInput() {
 		inputArea.setText(null);
+	}
+
+	/**
+	 * Internally used for key presses.
+	 * 
+	 * @param code the key code
+	 */
+	void internalKeyWasPressed(int code) {
+		keyWasPressed(code);
 	}
 
 	/**

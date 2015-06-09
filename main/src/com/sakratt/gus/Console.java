@@ -327,17 +327,18 @@ public class Console extends Window {
 		}
 	}
 
+	@Override
+	void internalKeyWasPressed(int code) {
+		super.internalKeyWasPressed(code);
+		this.lastKey = (char) code;
+		if (awatingInteraction) resume();
+	}
+
 	/**
 	 * @return whether the console is waiting for input
 	 */
 	public final boolean isWaitingForInput() {
 		return (latch != null);
-	}
-
-	@Override
-	protected final void keyWasPressed(int code) {
-		this.lastKey = (char) code;
-		if (awatingInteraction) resume();
 	}
 
 	/**
@@ -377,7 +378,8 @@ public class Console extends Window {
 
 					}
 				}
-			}).start();;
+			}).start();
+			;
 		}
 	}
 
