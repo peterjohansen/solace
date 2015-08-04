@@ -165,7 +165,7 @@ public class OutputFrame {
 	 */
 	public void printNewLines(int count) {
 		if (count < 0) {
-			throw new IllegalArgumentException("amount of new lines cannot be less than zero");
+			throw new IllegalArgumentException("amount of new lines cannot be negative");
 		}
 		print(new String(new char[count]).replace('\0', '\n'));
 	}

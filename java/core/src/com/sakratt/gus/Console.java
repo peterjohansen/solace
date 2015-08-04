@@ -1,5 +1,6 @@
 package com.sakratt.gus;
 
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -120,12 +121,12 @@ public class Console extends Window {
 	 * @return {@code true} if the user entered a yes answer
 	 */
 	public boolean getBoolean(String[] yesAnswers, String[] noAnswers, String error) {
-		if (yesAnswers == null) {
-			throw new NullPointerException("array of yes-answers cannot be null");
+		Objects.requireNonNull(yesAnswers, "array of yes-answers cannot be null");
+		Objects.requireNonNull(noAnswers, "array of no-answers cannot be null");
+		if (yesAnswers.length == 0 && noAnswers.length == 0) {
+			throw new IllegalArgumentException("there must be at least one yes or no answer");
 		}
-		if (noAnswers == null) {
-			throw new NullPointerException("array of no-answers cannot be null");
-		}
+		
 		while (true) {
 			String answer = getString();
 
@@ -317,9 +318,8 @@ public class Console extends Window {
 	 * @return the {@code String}
 	 */
 	public final String getString(String regex, String error) {
-		if (regex == null) {
-			throw new NullPointerException("the regex cannot be null");
-		}
+		Objects.requireNonNull(regex, "the regex cannot be null");
+		
 		while (true) {
 			String str = getString();
 			if (str.matches(regex)) return str;
@@ -405,14 +405,15 @@ public class Console extends Window {
 
 	/**
 	 * Sets the length of the interval in milliseconds between when each
-	 * character is displayed in the output area. A negative speed will be set
-	 * to {@code 0}, which will instantly display the characters in the output
-	 * area.
+	 * character is displayed in the output area.
 	 * 
 	 * @param speed the speed
 	 */
 	public void setDisplaySpeed(int speed) {
-		this.speed = (speed < 0 ? 0 : speed);
+		if (speed < 0) {
+			throw new IllegalArgumentException("display speed cannot be negative");
+		}
+		this.speed = speed;
 	}
 
 	/**
