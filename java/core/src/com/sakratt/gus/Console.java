@@ -1,6 +1,8 @@
 package com.sakratt.gus;
 
 import java.util.Objects;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -51,11 +53,23 @@ public class Console extends Window {
 	 * Whether the console is waiting for user interaction or not.
 	 */
 	private boolean awatingInteraction;
+	
 
 	/**
 	 * The speed in milliseconds to display each character in the output area.
 	 */
 	private int speed;
+	
+	/**
+	 * Whether the console is currently printing out text. Necessary if the
+	 * text is not displayed instantly.
+	 */
+	private boolean printingText;
+	
+	/**
+	 * Queue of objects that will be output.
+	 */
+	private final Queue<Object> outputQueue = new PriorityQueue<>();
 
 	/**
 	 * Creates a new console.
@@ -355,31 +369,46 @@ public class Console extends Window {
 
 	@Override
 	public final void print(Object o) {
-		if (speed == 0) super.print(o);
-		else {
-			final String str = o.toString();
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					int index = 0;
-					try {
-
-						// Attempt to print a character and sleep
-						for (; index < str.length(); index++) {
-							Console.super.print(str.charAt(index));
-							Thread.sleep(speed);
+		if (speed == 0) {
+			super.print(o);
+		} else {
+			if (printingText) {
+				outputQueue.add(o);
+			} else {
+				final String str = o.toString();
+				printingText = true;
+				boolean previousAllowInput = inputArea.isEnabled();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						int index = 0;
+						try {
+	
+							// Attempt to print a character and sleep
+							for (; index < str.length(); index++) {
+								Console.super.print(str.charAt(index));
+								Thread.sleep(speed);
+							}
+	
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							
+							// Print out remaining characters if any
+							Console.super.print(str.substring(index));
+							
+						} finally {
+							printingText = false;
+							if (!outputQueue.isEmpty()) {
+								print(outputQueue.poll());
+							}
+							setAcceptUserInput(previousAllowInput);
+							resume();
 						}
-
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-
-						// Print out remaining characters
-						Console.super.print(str.substring(index));
-
 					}
-				}
-			}).start();
-			;
+				}).start();
+				setAcceptUserInput(false);
+				pause();
+			}
 		}
 	}
 
@@ -395,7 +424,7 @@ public class Console extends Window {
 			resume();
 		}
 	}
-
+	
 	/**
 	 * Resumes the thread.
 	 */
