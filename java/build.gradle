@@ -1,0 +1,12 @@
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+
+	sourceCompatibility = '1.8'
+	sourceSets.main.java.srcDir 'src/'
+	eclipse.project.name = "gus-" + project.name
+}
+
+project(':core') {
+	
+}
