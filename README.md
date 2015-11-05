@@ -1,3 +1,5 @@
+**Note**: This project uses Swing and has been scrapped in favor of JavaFX. [Click here to view the new project](https://github.com/peterjohansen/solace).
+
 # About Gus
 Gus provides the following types of windows for text applications in Java:
 
