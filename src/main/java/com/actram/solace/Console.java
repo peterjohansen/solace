@@ -1,4 +1,4 @@
-package com.sakratt.gus;
+package com.actram.solace;
 
 import java.util.Objects;
 import java.util.PriorityQueue;
