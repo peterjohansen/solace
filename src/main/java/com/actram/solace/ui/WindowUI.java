@@ -2,171 +2,269 @@ package com.actram.solace.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.KeyboardFocusManager;
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Collections;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.text.DefaultCaret;
 
-import com.actram.solace.InputReceiver;
+import com.actram.solace.ui.listeners.CloseListener;
+import com.actram.solace.ui.listeners.InputListener;
+import com.actram.solace.ui.listeners.KeyListener;
 
 /**
- * A window is a graphical user interface consisting of an input and output
- * area, allowing the user to enter text and the program to display text.
- * <p>
- * By default the input submitted will only be echoed back, but this can be
- * changed by overriding the {@link #receiveInput(String)}-method.
- * <p>
- * For a {@link WindowUI} that uses polling input, see the {@link ConsoleUI} class.
+ * A graphical user interface that can display text and receive input.
  * 
  * @author Peter André Johansen
- * 
  */
-public class WindowUI extends OutputFrameUI implements InputReceiver {
+public class WindowUI {
 
-	private static final String DEFAULT_TITLE = "Window";
+	public static final String DEFAULT_TITLE = "Window";
 
+	public static final int DEFAULT_WIDTH = 600;
+	public static final int DEFAULT_HEIGHT = 300;
+
+	public static final Font DEFAULT_FONT = Font.decode("monospace");
+
+	private final JFrame frame;
+	private final JTextArea outputArea;
 	final JTextField inputArea;
 
-	/**
-	 * Creates a new window.
-	 */
+	private CloseListener closeListener;
+	private KeyListener keyListener;
+	private InputListener inputListener;
+
 	public WindowUI() {
-		this(DEFAULT_TITLE);
-	}
 
-	/**
-	 * @param width the width of the window
-	 * @param height the height of the window
-	 */
-	public WindowUI(int width, int height) {
-		this(width, height, DEFAULT_TITLE);
-	}
+		// Create output area
+		outputArea = new JTextArea();
+		outputArea.setBorder(new EmptyBorder(5, 5, 5, 5));
+		outputArea.setEditable(false);
+		outputArea.setFont(DEFAULT_FONT);
+		outputArea.setLineWrap(true);
+		outputArea.setMargin(null);
+		outputArea.setWrapStyleWord(true);
+		DefaultCaret caret = (DefaultCaret) outputArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
-	/**
-	 * @param width the width of the window
-	 * @param height the height of the window
-	 * @param title the title of the window
-	 */
-	public WindowUI(int width, int height, String title) {
-		super(width, height, title);
+		// Create output area scroll pane
+		final JScrollPane outputAreaScrollPane = new JScrollPane();
+		outputAreaScrollPane.setBorder(null);
+		outputAreaScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		outputAreaScrollPane.setViewportView(outputArea);
 
 		// Input area
 		inputArea = new JTextField();
 		MatteBorder outsideBorder = new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY);
 		EmptyBorder insideBorder = new EmptyBorder(5, 5, 5, 5);
 		inputArea.setBorder(new CompoundBorder(outsideBorder, insideBorder));
-		inputArea.addActionListener(evt -> sendTextFromInputArea());
+		inputArea.addActionListener(evt -> {
+			String input = inputArea.getText();
+			if (inputListener != null && !input.isEmpty()) {
+				inputListener.receiveInput(input);
+			}
+			clearInputText();
+		});
 		inputArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.emptySet());
+		inputArea.setFont(DEFAULT_FONT);
+
+		// Create the frame
+		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent evt) {
+				if (closeListener != null) {
+					closeListener.close();
+				}
+			}
+		});
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setLayout(new BorderLayout());
+		frame.add(outputAreaScrollPane, BorderLayout.CENTER);
+		frame.add(inputArea, BorderLayout.SOUTH);
 
 		// Add key listener to the window
-		KeyListener keyListener = new KeyAdapter() {
+		java.awt.event.KeyListener uiKeyListener = new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
-				internalKeyWasPressed(evt.getKeyCode());
+				if (keyListener != null) {
+					keyListener.keyPressed(evt.getKeyCode());
+				}
 			}
 		};
-		inputArea.addKeyListener(keyListener);
-		frame.addKeyListener(keyListener); // Necessary for when the
-											// input area is disabled
+		inputArea.addKeyListener(uiKeyListener);
+		frame.addKeyListener(uiKeyListener); // Necessary for when the input
+												// area is disabled
 
-		// Frame
-		frame.add(inputArea, BorderLayout.SOUTH);
-		frame.revalidate();
-
-		// Initialize
-		setAcceptUserInput(true);
+		// Initialize the window
+		setFrameSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		setFrameTitle(DEFAULT_TITLE);
+		setInputEnabled(true);
 		setOutputFocusable(false);
+		frame.setVisible(true);
+
 	}
 
 	/**
-	 * @param title the title of the window
+	 * @param text the text to append to the output area
 	 */
-	public WindowUI(String title) {
-		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
+	public void appendOutputText(String text) {
+		outputArea.append(text);
 	}
 
-	@Override
-	public void clearInput() {
-		inputArea.setText(null);
+	/**
+	 * Clears the input text.
+	 */
+	public void clearInputText() {
+		setInputText(null);
 	}
 
-	@Override
-	public String getCurrentInput() {
+	/**
+	 * Disposes of the frame.
+	 */
+	public void disposeOfFrame() {
+		frame.dispose();
+	}
+
+	/**
+	 * @return the frame's location
+	 */
+	public Point getFrameLocation() {
+		return frame.getLocation();
+	}
+
+	/**
+	 * @return the frame's size
+	 */
+	public Dimension getFrameSize() {
+		return frame.getSize();
+	}
+
+	/**
+	 * @return the frame's title
+	 */
+	public String getFrameTitle() {
+		return frame.getTitle();
+	}
+
+	/**
+	 * @return the text currently in the input area
+	 */
+	public String getInputText() {
 		return inputArea.getText();
 	}
 
 	/**
-	 * Internally used for key presses.
-	 * 
-	 * @param code the key code
+	 * @return the text currently in the output area
 	 */
-	void internalKeyWasPressed(int code) {
-		keyWasPressed(code);
+	public String getOutputText() {
+		return outputArea.getText();
 	}
 
 	/**
-	 * @return whether the window is accepting user input
+	 * @return whether the input area is enabled
 	 */
-	public final boolean isAcceptingUserInput() {
+	public boolean isInputEnabled() {
 		return inputArea.isEnabled();
 	}
 
 	/**
-	 * This method is called when the user presses a key in the input area.
-	 * 
-	 * @param code the key code
+	 * @param closeListener the window's new close listener
 	 */
-	protected void keyWasPressed(int code) {}
-
-	/**
-	 * This method feeds the window input, either programmatically or from the
-	 * user.
-	 * 
-	 * @param input the input
-	 */
-	public void receiveInput(String input) {
-		println(input);
+	public void setCloseListener(CloseListener closeListener) {
+		this.closeListener = closeListener;
 	}
 
 	/**
-	 * Selects the text in the input area.
+	 * @param image the frame's new icon image
 	 */
-	public void selectInput() {
-		inputArea.selectAll();
+	public void setFrameIconImage(Image image) {
+		frame.setIconImage(image);
 	}
 
 	/**
-	 * Passes on the text in the input area to the {@link #receiveInput(String)}
-	 * method and clears the input area.
+	 * @param x the frame's new x-coordinate
+	 * @param y the frame's new y-coordinate
 	 */
-	private void sendTextFromInputArea() {
-		String text = inputArea.getText();
-		int len = text.length();
-		if (len != 0) {
-			receiveInput(text);
-			clearInput();
+	public void setFrameLocation(int x, int y) {
+		frame.setLocation(x, y);
+	}
+
+	/**
+	 * @param width the frame's new width
+	 * @param height the frame's new height
+	 */
+	public void setFrameSize(int width, int height) {
+		frame.setPreferredSize(new Dimension(width, height));
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+	}
+
+	/**
+	 * @param title the frame's new title
+	 */
+	public void setFrameTitle(String title) {
+		frame.setTitle(title);
+	}
+
+	/**
+	 * @param enabled whether to enable the input area
+	 */
+	public void setInputEnabled(boolean enabled) {
+		inputArea.setEnabled(enabled);
+		if (enabled) {
+			inputArea.requestFocusInWindow();
+		} else {
+			frame.requestFocus();
 		}
 	}
 
 	/**
-	 * The input area will be disabled if input is not accepted.
-	 * 
-	 * @param accept whether to accept user input
+	 * @param inputListener the window's new input listener
 	 */
-	public final void setAcceptUserInput(boolean accept) {
-		inputArea.setEnabled(accept);
-		if (accept) inputArea.requestFocusInWindow();
-		else frame.requestFocus();
+	public void setInputListener(InputListener inputListener) {
+		this.inputListener = inputListener;
 	}
 
-	@Override
-	public void setCurrentInput(Object obj) {
-		inputArea.setText(obj.toString());
+	/**
+	 * @param text the text to display in the input area
+	 */
+	public void setInputText(String text) {
+		inputArea.setText(text);
+	}
+
+	/**
+	 * @param keyListener the window's new key listener
+	 */
+	public void setKeyListener(KeyListener keyListener) {
+		this.keyListener = keyListener;
+	}
+
+	/**
+	 * @param focusable whether the output area should be focusable
+	 */
+	public void setOutputFocusable(boolean focusable) {
+		outputArea.setFocusable(focusable);
+	}
+
+	/**
+	 * @param text the text to display in the output area
+	 */
+	public void setOutputText(String text) {
+		outputArea.setText(text);
 	}
 }

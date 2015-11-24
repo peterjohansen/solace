@@ -1,11 +1,11 @@
-package com.actram.solace;
+package com.actram.solace.interfaces;
 
 /**
- * An input receiver can be sent input that will later be processed.
+ * An input owner controls input interfacing with the user in the program.
  * 
  * @author Peter André Johansen
  */
-public interface InputReceiver {
+public interface InputOwner {
 
 	/**
 	 * Removes what has been input, but not processed. An example would be
@@ -16,7 +16,17 @@ public interface InputReceiver {
 	/**
 	 * @return what has been input, but not processed
 	 */
-	public Object getCurrentInput();
+	public String getCurrentInput();
+
+	/**
+	 * @return whether the window is accepting user input
+	 */
+	public boolean isAcceptingUserInput();
+	
+	/**
+	 * @param acceptInput whether to accept user input
+	 */
+	public void setAcceptUserInput(boolean acceptInput);
 
 	/**
 	 * Sets the current input. The input will only be up dated, not processed.
@@ -24,5 +34,4 @@ public interface InputReceiver {
 	 * @param obj the input
 	 */
 	public void setCurrentInput(Object obj);
-
 }

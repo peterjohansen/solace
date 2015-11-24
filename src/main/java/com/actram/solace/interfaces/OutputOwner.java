@@ -1,14 +1,14 @@
-package com.actram.solace;
+package com.actram.solace.interfaces;
 
 import java.util.Locale;
 
 /**
- * An output receiver can be sent objects that will be displayed to the user,
- * including new lines.
+ * An output owner controls the output of a program. It can be sent objects that
+ * will be displayed to the user, including new lines.
  * 
  * @author Peter André Johansen
  */
-public interface OutputReceiver {
+public interface OutputOwner {
 
 	/**
 	 * Removes everything that has been output.
