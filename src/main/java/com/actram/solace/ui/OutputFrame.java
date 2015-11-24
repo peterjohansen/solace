@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -14,13 +13,15 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
+import com.actram.solace.OutputReceiver;
+
 /**
  * An output frame is a graphical user interface that displays text.
  * 
  * @author Peter André Johansen
  * 
  */
-public class OutputFrame {
+public class OutputFrame implements OutputReceiver {
 
 	private static final String DEFAULT_TITLE = "Output Frame";
 	private static final Font OUTPUT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
@@ -102,9 +103,7 @@ public class OutputFrame {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
 	}
 
-	/**
-	 * Clears the output area.
-	 */
+	@Override
 	public final void clearOutput() {
 		outputArea.setText(null);
 	}
@@ -123,41 +122,9 @@ public class OutputFrame {
 		return outputArea.getText();
 	}
 
-	/**
-	 * Prints the given object to the output area.
-	 */
+	@Override
 	public void print(Object o) {
 		outputArea.append(o.toString());
-	}
-
-	/**
-	 * Prints a formatted string using the given locale, format string and
-	 * arguments to the output area.
-	 */
-	public void printf(Locale locale, String format, Object... args) {
-		print(String.format(locale, format, args));
-	}
-
-	/**
-	 * Prints a formatted string using the given format string and arguments to
-	 * the output area.
-	 */
-	public void printf(String format, Object... args) {
-		print(String.format(format, args));
-	}
-
-	/**
-	 * Prints a new line to the output area.
-	 */
-	public void println() {
-		print('\n');
-	}
-
-	/**
-	 * Prints the given object and a new line to the output area.
-	 */
-	public void println(Object o) {
-		print(o + "\n");
 	}
 
 	/**

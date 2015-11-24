@@ -13,6 +13,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import com.actram.solace.InputReceiver;
+
 /**
  * A window is a graphical user interface consisting of an input and output
  * area, allowing the user to enter text and the program to display text.
@@ -25,7 +27,7 @@ import javax.swing.border.MatteBorder;
  * @author Peter André Johansen
  * 
  */
-public class Window extends OutputFrame {
+public class Window extends OutputFrame implements InputReceiver {
 
 	private static final String DEFAULT_TITLE = "Window";
 
@@ -89,16 +91,12 @@ public class Window extends OutputFrame {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
 	}
 
-	/**
-	 * Clears the input area.
-	 */
-	protected void clearInput() {
+	@Override
+	public void clearInput() {
 		inputArea.setText(null);
 	}
 
-	/**
-	 * @return the text that currently is in the input area
-	 */
+	@Override
 	public String getCurrentInput() {
 		return inputArea.getText();
 	}
@@ -142,7 +140,7 @@ public class Window extends OutputFrame {
 	public void selectInput() {
 		inputArea.selectAll();
 	}
-	
+
 	/**
 	 * Passes on the text in the input area to the {@link #receiveInput(String)}
 	 * method and clears the input area.
@@ -167,11 +165,8 @@ public class Window extends OutputFrame {
 		else frame.requestFocus();
 	}
 
-	/**
-	 * Sets the current input to the given value, replacing any value that was
-	 * there.
-	 */
-	public void setCurrentInput(String text) {
-		inputArea.setText(text);
+	@Override
+	public void setCurrentInput(Object obj) {
+		inputArea.setText(obj.toString());
 	}
 }

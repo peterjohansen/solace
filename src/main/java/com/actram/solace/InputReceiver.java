@@ -19,7 +19,7 @@ public interface InputReceiver {
 	public Object getCurrentInput();
 
 	/**
-	 * Sets the current input. The input will only be updated, not processed.
+	 * Sets the current input. The input will only be up dated, not processed.
 	 * 
 	 * @param obj the input
 	 */
