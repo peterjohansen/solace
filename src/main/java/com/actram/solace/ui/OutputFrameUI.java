@@ -21,7 +21,7 @@ import com.actram.solace.OutputReceiver;
  * @author Peter André Johansen
  * 
  */
-public class OutputFrame implements OutputReceiver {
+public class OutputFrameUI implements OutputReceiver {
 
 	private static final String DEFAULT_TITLE = "Output Frame";
 	private static final Font OUTPUT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
@@ -35,7 +35,7 @@ public class OutputFrame implements OutputReceiver {
 	/**
 	 * Creates a new output frame.
 	 */
-	public OutputFrame() {
+	public OutputFrameUI() {
 		this(DEFAULT_TITLE);
 	}
 
@@ -43,7 +43,7 @@ public class OutputFrame implements OutputReceiver {
 	 * @param width the width of the frame
 	 * @param height the height of the frame
 	 */
-	public OutputFrame(int width, int height) {
+	public OutputFrameUI(int width, int height) {
 		this(width, height, DEFAULT_TITLE);
 	}
 
@@ -52,7 +52,7 @@ public class OutputFrame implements OutputReceiver {
 	 * @param height the height of the frame
 	 * @param title the title of the frame
 	 */
-	public OutputFrame(int width, int height, String title) {
+	public OutputFrameUI(int width, int height, String title) {
 		if (width < 0) {
 			throw new IllegalArgumentException("the width must be greater than zero");
 		}
@@ -99,7 +99,7 @@ public class OutputFrame implements OutputReceiver {
 	/**
 	 * @param title the title of the frame
 	 */
-	public OutputFrame(String title) {
+	public OutputFrameUI(String title) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
 	}
 

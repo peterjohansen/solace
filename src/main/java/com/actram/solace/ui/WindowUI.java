@@ -22,12 +22,12 @@ import com.actram.solace.InputReceiver;
  * By default the input submitted will only be echoed back, but this can be
  * changed by overriding the {@link #receiveInput(String)}-method.
  * <p>
- * For a {@link Window} that uses polling input, see the {@link Console} class.
+ * For a {@link WindowUI} that uses polling input, see the {@link ConsoleUI} class.
  * 
  * @author Peter André Johansen
  * 
  */
-public class Window extends OutputFrame implements InputReceiver {
+public class WindowUI extends OutputFrameUI implements InputReceiver {
 
 	private static final String DEFAULT_TITLE = "Window";
 
@@ -36,7 +36,7 @@ public class Window extends OutputFrame implements InputReceiver {
 	/**
 	 * Creates a new window.
 	 */
-	public Window() {
+	public WindowUI() {
 		this(DEFAULT_TITLE);
 	}
 
@@ -44,7 +44,7 @@ public class Window extends OutputFrame implements InputReceiver {
 	 * @param width the width of the window
 	 * @param height the height of the window
 	 */
-	public Window(int width, int height) {
+	public WindowUI(int width, int height) {
 		this(width, height, DEFAULT_TITLE);
 	}
 
@@ -53,7 +53,7 @@ public class Window extends OutputFrame implements InputReceiver {
 	 * @param height the height of the window
 	 * @param title the title of the window
 	 */
-	public Window(int width, int height, String title) {
+	public WindowUI(int width, int height, String title) {
 		super(width, height, title);
 
 		// Input area
@@ -87,7 +87,7 @@ public class Window extends OutputFrame implements InputReceiver {
 	/**
 	 * @param title the title of the window
 	 */
-	public Window(String title) {
+	public WindowUI(String title) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
 	}
 

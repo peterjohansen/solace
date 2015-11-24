@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * A console is a {@link Window} that only allows the user to enter text when
+ * A console is a {@link WindowUI} that only allows the user to enter text when
  * requested by the program.
  * <p>
  * Also contains useful methods for getting user input, a few of which are:
@@ -23,7 +23,7 @@ import java.util.concurrent.CountDownLatch;
  * @author Peter André Johansen
  * 
  */
-public class Console extends Window {
+public class ConsoleUI extends WindowUI {
 
 	/** Default prompt for the {@link #waitForKey()}-methods. */
 	public static final String DEFAULT_POLL_PROMPT = "Press any key to continue...";
@@ -74,7 +74,7 @@ public class Console extends Window {
 	/**
 	 * Creates a new console.
 	 */
-	public Console() {
+	public ConsoleUI() {
 		this(DEFAULT_TITLE);
 	}
 
@@ -82,7 +82,7 @@ public class Console extends Window {
 	 * @param width the width of the console
 	 * @param height the height of the console
 	 */
-	public Console(int width, int height) {
+	public ConsoleUI(int width, int height) {
 		this(width, height, DEFAULT_TITLE);
 	}
 
@@ -91,7 +91,7 @@ public class Console extends Window {
 	 * @param height the height of the console
 	 * @param title the title of the console
 	 */
-	public Console(int width, int height, String title) {
+	public ConsoleUI(int width, int height, String title) {
 		super(width, height, title);
 
 		// Initialize
@@ -103,7 +103,7 @@ public class Console extends Window {
 	/**
 	 * @param title the title of the console
 	 */
-	public Console(String title) {
+	public ConsoleUI(String title) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
 	}
 
@@ -386,7 +386,7 @@ public class Console extends Window {
 	
 							// Attempt to print a character and sleep
 							for (; index < str.length(); index++) {
-								Console.super.print(str.charAt(index));
+								ConsoleUI.super.print(str.charAt(index));
 								Thread.sleep(speed);
 							}
 	
@@ -394,7 +394,7 @@ public class Console extends Window {
 							e.printStackTrace();
 							
 							// Print out remaining characters if any
-							Console.super.print(str.substring(index));
+							ConsoleUI.super.print(str.substring(index));
 							
 						} finally {
 							printingText = false;
