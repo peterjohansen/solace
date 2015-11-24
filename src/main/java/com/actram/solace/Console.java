@@ -4,7 +4,10 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
+import com.actram.solace.interfaces.SimpleInputInterpreter;
+import com.actram.solace.interpreter.InputValidator;
 import com.actram.solace.interpreter.InterpreterError;
+import com.actram.solace.interpreter.InterpreterType;
 import com.actram.solace.ui.WindowUI;
 
 /**
@@ -12,7 +15,7 @@ import com.actram.solace.ui.WindowUI;
  *
  * @author Peter André Johansen
  */
-public class Console extends Window {
+public class Console extends Window implements SimpleInputInterpreter {
 	public static enum Error implements InterpreterError {
 		NOT_A_NUMBER, NOT_AN_INT,
 	}
@@ -94,6 +97,17 @@ public class Console extends Window {
 		pauseThread();
 		setAcceptUserInput(false);
 		return lastInputSubmitted;
+	}
+
+	/**
+	 * Polls the console for the given custom type. A {@link InputValidator}
+	 * with the same type must be specified (see {@link #TEMP()}) beforehand.
+	 * 
+	 * @param type the type of input to get
+	 * @return the input object
+	 */
+	public <T> T get(InterpreterType type) {
+		return null;
 	}
 
 	/**
