@@ -4,7 +4,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.util.Objects;
 
-import com.actram.solace.interfaces.StandardWindow;
+import com.actram.solace.ui.DefaultWindowUI;
+import com.actram.solace.ui.StandardWindow;
 import com.actram.solace.ui.WindowUI;
 
 /**
@@ -13,12 +14,22 @@ import com.actram.solace.ui.WindowUI;
  * @author Peter André Johansen
  */
 public class Window implements StandardWindow {
-	public static Window createNew() {
-		return new Window(new WindowUI());
-	}
-
+	public static final String DEFAULT_TITLE = "Window";
+	
 	protected final WindowUI windowUI;
 
+	public Window() {
+		this(new DefaultWindowUI());
+	}
+	
+	/**
+	 * Creates a new window that uses the given window user interface,
+	 * which also controls whether the window is visible initially.
+	 * <p>
+	 * <strong>Note:</strong> Use {@link Window#createNew()} to create a new
+	 * window. This constructor should only be used if you need to specify a
+	 * custom user interface.
+	 */
 	public Window(WindowUI windowUI) {
 		Objects.requireNonNull(windowUI, "the window user interface cannot be null");
 		this.windowUI = windowUI;
@@ -150,10 +161,10 @@ public class Window implements StandardWindow {
 	@Override
 	public void setSize(int width, int height) {
 		if (width < 0) {
-			throw new IllegalArgumentException("the window width cannot be null");
+			throw new IllegalArgumentException("the window width cannot be negative");
 		}
 		if (height < 0) {
-			throw new IllegalArgumentException("the window height cannot be null");
+			throw new IllegalArgumentException("the window height cannot be negative");
 		}
 
 		windowUI.setFrameSize(width, height);

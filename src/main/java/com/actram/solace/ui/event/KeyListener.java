@@ -1,4 +1,4 @@
-package com.actram.solace.ui.listeners;
+package com.actram.solace.ui.event;
 
 /**
  * Listener for key presses.

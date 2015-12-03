@@ -1,4 +1,4 @@
-package com.actram.solace.interfaces;
+package com.actram.solace.ui;
 
 import java.awt.Font;
 
@@ -13,26 +13,26 @@ public interface TextProgram {
 	/**
 	 * Selects the text in the input area.
 	 */
-	public void selectInputText();
+	void selectInputText();
 
 	/**
 	 * Selects the text in the output area.
 	 */
-	public void selectOuputText();
+	void selectOuputText();
 
 	/**
 	 * @param font the new input font
 	 */
-	public void setInputFont(Font font);
+	void setInputFont(Font font);
 
 	/**
 	 * @param focusable whether the output area should be focusable
 	 */
-	public void setOutputFocusable(boolean focusable);
+	void setOutputFocusable(boolean focusable);
 
 	/**
 	 * @param font the new output font
 	 */
-	public void setOutputFont(Font font);
+	void setOutputFont(Font font);
 
 }

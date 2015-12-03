@@ -4,9 +4,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
-import com.actram.solace.interpreter.InputValidator;
-import com.actram.solace.interpreter.InterpreterError;
 import com.actram.solace.interpreter.InterpreterType;
+import com.actram.solace.ui.DefaultWindowUI;
 import com.actram.solace.ui.WindowUI;
 
 /**
@@ -15,17 +14,10 @@ import com.actram.solace.ui.WindowUI;
  * @author Peter André Johansen
  */
 public class Console extends Window {
-	public static enum Error implements InterpreterError {
-		NOT_A_NUMBER, NOT_AN_INT,
-	}
-
-	public static final String DEFAULT_TITLE = "Window";
-
-	public static final int DEFAULT_WIDTH = 600;
-	public static final int DEFAULT_HEIGHT = 300;
+	public static final String DEFAULT_TITLE = "Console";
 
 	/**
-	 * Creates a new console with the default size.
+	 * @return a new console with the default size
 	 */
 	public static Console createNew() {
 		return Console.createNew(null);
@@ -33,6 +25,8 @@ public class Console extends Window {
 
 	/**
 	 * @return a new console with the given width and height
+	 * @throws IllegalArgumentException if the width is negative
+	 * @throws IllegalArgumentException if the height is negative
 	 */
 	public static Console createNew(int width, int height) {
 		return Console.createNew(width, height, DEFAULT_TITLE);
@@ -40,12 +34,21 @@ public class Console extends Window {
 
 	/**
 	 * @return a new console with the given width, height and title
+	 * @throws IllegalArgumentException if the width is negative
+	 * @throws IllegalArgumentException if the height is negative
 	 */
 	public static Console createNew(int width, int height, String title) {
-		WindowUI windowUI = new WindowUI(false);
+		if (width < 0) {
+			throw new IllegalArgumentException("the width cannot be negative");
+		}
+		if (height < 0) {
+			throw new IllegalArgumentException("the height cannot be negative");
+		}
+		
+		WindowUI windowUI = new DefaultWindowUI(false);
 		windowUI.setFrameSize(width, height);
 		windowUI.setFrameTitle(title);
-		windowUI.showFrame();
+		windowUI.setFrameVisible(true);
 		return new Console(windowUI);
 	}
 
@@ -82,8 +85,8 @@ public class Console extends Window {
 	private char lastKeyPressed;
 
 	/**
-	 * Creates a new console that uses the given window user interface. Whether
-	 * the console is hidden or not is controlled by that object.
+	 * Creates a new console that uses the given window user interface,
+	 * which also controls whether the console is visible initially.
 	 * <p>
 	 * <strong>Note:</strong> Use {@link Console#createNew()} to create a new
 	 * console. This constructor should only be used if you need to specify a

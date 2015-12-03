@@ -16,6 +16,6 @@ public interface ConsoleProgram {
 	 * 
 	 * @throws NullPointerException if the specified console is {@code null}
 	 */
-	public void run(Console console);
+	void run(Console console);
 
 }

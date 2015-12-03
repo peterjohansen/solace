@@ -1,4 +1,4 @@
-package com.actram.solace.interfaces;
+package com.actram.solace.ui;
 
 import java.awt.Image;
 
@@ -12,51 +12,51 @@ public interface WindowOwner {
 	/**
 	 * Closes the window.
 	 */
-	public void close();
+	void close();
 
 	/**
 	 * @return the window's height
 	 */
-	public int getHeight();
+	int getHeight();
 
 	/**
 	 * @return the window's title
 	 */
-	public String getTitle();
+	String getTitle();
 
 	/**
 	 * @return the windows' width
 	 */
-	public int getWidth();
+	int getWidth();
 
 	/**
 	 * @return the window's y-coordinate
 	 */
-	public int getX();
+	int getX();
 
 	/**
 	 * @return the window's x-coordinate
 	 */
-	public int getY();
+	int getY();
 
 	/**
 	 * @param height the window's new height
 	 * @throws IllegalArgumentException if the height is negative
 	 */
-	public default void setHeight(int height) {
+	default void setHeight(int height) {
 		this.setSize(getWidth(), height);
 	}
 
 	/**
 	 * @param image the window's new icon image
 	 */
-	public void setIconImage(Image image);
+	void setIconImage(Image image);
 
 	/**
 	 * @param x the window's new x-coordinate
 	 * @param y the window's new y-coordinate
 	 */
-	public void setLocation(int x, int y);
+	void setLocation(int x, int y);
 
 	/**
 	 * @param width the window's new width
@@ -64,32 +64,32 @@ public interface WindowOwner {
 	 * @throws IllegalArgumentException if the width is negative
 	 * @throws IllegalArgumentException if the height is negative
 	 */
-	public void setSize(int width, int height);
+	void setSize(int width, int height);
 
 	/**
 	 * @param title the window's new title
 	 */
-	public void setTitle(String title);
+	void setTitle(String title);
 
 	/**
 	 * @param width the window's new width
 	 * @throws IllegalArgumentException if the width is negative
 	 */
-	public default void setWidth(int width) {
+	default void setWidth(int width) {
 		this.setSize(width, getHeight());
 	}
 
 	/**
 	 * @param x the window's new x-coordinate
 	 */
-	public default void setX(int x) {
+	default void setX(int x) {
 		setLocation(x, getY());
 	}
 
 	/**
 	 * @param y the window's new y-coordinate
 	 */
-	public default void setY(int y) {
+	default void setY(int y) {
 		setLocation(getX(), y);
 	}
 }

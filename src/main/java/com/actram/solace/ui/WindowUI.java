@@ -1,338 +1,160 @@
 package com.actram.solace.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.KeyboardFocusManager;
 import java.awt.Point;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Collections;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.text.DefaultCaret;
+import com.actram.solace.ui.event.CloseListener;
+import com.actram.solace.ui.event.InputListener;
+import com.actram.solace.ui.event.KeyListener;
 
-import com.actram.solace.ui.listeners.CloseListener;
-import com.actram.solace.ui.listeners.InputListener;
-import com.actram.solace.ui.listeners.KeyListener;
-
-/**
- * A graphical user interface that can display text and receive input.
- * 
- * @author Peter André Johansen
- */
-public class WindowUI {
-
-	public static final Font DEFAULT_FONT = Font.decode("monospace");
-
-	private final JFrame frame;
-	private final JTextArea outputArea;
-	private final JTextField inputArea;
-
-	private CloseListener closeListener;
-	private KeyListener keyListener;
-	private InputListener inputListener;
-
-	/**
-	 * Creates a new visible window user interface.
-	 */
-	public WindowUI() {
-		this(true);
-	}
-
-	/**
-	 * Creates a new window user interface with the given initial visibility.
-	 */
-	public WindowUI(boolean visible) {
-
-		// Create output area
-		outputArea = new JTextArea();
-		outputArea.setBorder(new EmptyBorder(5, 5, 5, 5));
-		outputArea.setEditable(false);
-		outputArea.setLineWrap(true);
-		outputArea.setMargin(null);
-		outputArea.setWrapStyleWord(true);
-		DefaultCaret caret = (DefaultCaret) outputArea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-
-		// Create output area scroll pane
-		final JScrollPane outputAreaScrollPane = new JScrollPane();
-		outputAreaScrollPane.setBorder(null);
-		outputAreaScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		outputAreaScrollPane.setViewportView(outputArea);
-
-		// Input area
-		inputArea = new JTextField();
-		MatteBorder outsideBorder = new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY);
-		EmptyBorder insideBorder = new EmptyBorder(5, 5, 5, 5);
-		inputArea.setBorder(new CompoundBorder(outsideBorder, insideBorder));
-		inputArea.addActionListener(evt -> {
-			String input = inputArea.getText();
-			if (inputListener != null && !input.isEmpty()) {
-				inputListener.receiveInput(input);
-			}
-			clearInputText();
-		});
-		inputArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.emptySet());
-
-		// Create the frame
-		frame = new JFrame();
-		frame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent evt) {
-				if (closeListener != null) {
-					closeListener.close();
-				}
-			}
-		});
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.setLayout(new BorderLayout());
-		frame.add(outputAreaScrollPane, BorderLayout.CENTER);
-		frame.add(inputArea, BorderLayout.SOUTH);
-
-		// Add key listener to the window
-		java.awt.event.KeyListener uiKeyListener = new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent evt) {
-				if (keyListener != null) {
-					keyListener.keyPressed(evt.getKeyCode());
-				}
-			}
-		};
-		inputArea.addKeyListener(uiKeyListener);
-		frame.addKeyListener(uiKeyListener); // Necessary for when the input
-												// area is disabled
-
-		// Initialize the window
-		setOutputFocusable(false);
-		setOutputFont(DEFAULT_FONT);
-		setInputEnabled(true);
-		setInputFont(DEFAULT_FONT);
-		if (visible) showFrame();
-
-	}
+public interface WindowUI {
 
 	/**
 	 * @param text the text to append to the output area
 	 */
-	public void appendOutputText(String text) {
-		outputArea.append(text);
-	}
+	void appendOutputText(String text);
 
 	/**
 	 * Clears the input text.
 	 */
-	public void clearInputText() {
-		setInputText(null);
-	}
+	void clearInputText();
 
 	/**
 	 * Disposes of the frame.
 	 */
-	public void disposeOfFrame() {
-		frame.dispose();
-	}
-
+	void disposeOfFrame();
+	
 	/**
 	 * @return the frame's location
 	 */
-	public Point getFrameLocation() {
-		return frame.getLocation();
-	}
+	Point getFrameLocation();
 
 	/**
 	 * @return the frame's size
 	 */
-	public Dimension getFrameSize() {
-		return frame.getSize();
-	}
+	Dimension getFrameSize();
 
 	/**
 	 * @return the frame's title
 	 */
-	public String getFrameTitle() {
-		return frame.getTitle();
-	}
+	String getFrameTitle();
 
 	/**
 	 * @return the text currently in the input area
 	 */
-	public String getInputText() {
-		return inputArea.getText();
-	}
+	String getInputText();
 
 	/**
 	 * @return the text currently in the output area
 	 */
-	public String getOutputText() {
-		return outputArea.getText();
-	}
+	String getOutputText();
 
 	/**
-	 * Hides this window's frame if it's visible.
+	 * @return whether the frame is visible
 	 */
-	public void hideFrame() {
-		frame.setVisible(false);
-	}
+	boolean isFrameVisible();
 
 	/**
 	 * @return whether the input area is enabled
 	 */
-	public boolean isInputEnabled() {
-		return inputArea.isEnabled();
-	}
+	boolean isInputEnabled();
 
 	/**
 	 * @return whether the input area is hidden
 	 */
-	public boolean isInputHidden() {
-		return !inputArea.isVisible();
-	}
+	boolean isInputHidden();
 
 	/**
 	 * Selects the text in the input area.
 	 */
-	public void selectInput() {
-		inputArea.selectAll();
-	}
+	void selectInput();
 
 	/**
 	 * Selects the text in the output area.
 	 */
-	public void selectOutput() {
-		outputArea.selectAll();
-	}
+	void selectOutput();
 
 	/**
-	 * @param closeListener the window's new close listener
+	 * @param closeListener the window's new close listener, or {@code null} to clear it
 	 */
-	public void setCloseListener(CloseListener closeListener) {
-		this.closeListener = closeListener;
-	}
+	void setCloseListener(CloseListener closeListener);
 
 	/**
 	 * @param image the frame's new icon image
 	 */
-	public void setFrameIconImage(Image image) {
-		frame.setIconImage(image);
-	}
+	void setFrameIconImage(Image image);
 
 	/**
 	 * @param x the frame's new x-coordinate
 	 * @param y the frame's new y-coordinate
 	 */
-	public void setFrameLocation(int x, int y) {
-		frame.setLocation(x, y);
-	}
+	void setFrameLocation(int x, int y);
 
 	/**
+	 * Sets the frame's size. The frame will be resized around it's midpoint.
+	 * 
 	 * @param width the frame's new width
 	 * @param height the frame's new height
+	 * @throws IllegalArgumentException if the width is negative
+	 * @throws IllegalArgumentException if the height is negative
 	 */
-	public void setFrameSize(int width, int height) {
-		if (width < 1) {
-			throw new IllegalArgumentException("the width cannot be negative");
-		}
-		if (height < 1) {
-			throw new IllegalArgumentException("the height cannot be negative");
-		}
-		frame.setPreferredSize(new Dimension(width, height));
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-	}
+	void setFrameSize(int width, int height);
 
 	/**
 	 * @param title the frame's new title
 	 */
-	public void setFrameTitle(String title) {
-		frame.setTitle(title);
-	}
+	void setFrameTitle(String title);
+
+	/**
+	 * @param visible whether the frame is visible
+	 */
+	void setFrameVisible(boolean visible);
 
 	/**
 	 * @param enabled whether to enable the input area
 	 */
-	public void setInputEnabled(boolean enabled) {
-		inputArea.setEnabled(enabled);
-		if (enabled) {
-			inputArea.requestFocusInWindow();
-		} else {
-			frame.requestFocus();
-		}
-	}
+	void setInputEnabled(boolean enabled);
 
 	/**
 	 * @param font the input area's new font
 	 */
-	public void setInputFont(Font font) {
-		inputArea.setFont(font);
-	}
+	void setInputFont(Font font);
 
 	/**
 	 * @param hidden whether the input area should be hidden
 	 */
-	public void setInputHidden(boolean hidden) {
-		this.inputArea.setVisible(!hidden);
-	}
+	void setInputHidden(boolean hidden);
 
 	/**
-	 * @param inputListener the window's new input listener
+	 * @param inputListener the window's new input listener, or {@code null} to clear it
 	 */
-	public void setInputListener(InputListener inputListener) {
-		this.inputListener = inputListener;
-	}
+	void setInputListener(InputListener inputListener);
 
 	/**
 	 * @param text the text to display in the input area
 	 */
-	public void setInputText(String text) {
-		inputArea.setText(text);
-	}
+	void setInputText(String text);
 
 	/**
-	 * @param keyListener the window's new key listener
+	 * @param keyListener the window's new key listener, or {@code null} to clear it
 	 */
-	public void setKeyListener(KeyListener keyListener) {
-		this.keyListener = keyListener;
-	}
+	void setKeyListener(KeyListener keyListener);
 
 	/**
 	 * @param focusable whether the output area should be focusable
 	 */
-	public void setOutputFocusable(boolean focusable) {
-		outputArea.setFocusable(focusable);
-	}
+	void setOutputFocusable(boolean focusable);
 
 	/**
 	 * @param font the output area's new font
 	 */
-	public void setOutputFont(Font font) {
-		outputArea.setFont(font);
-	}
+	void setOutputFont(Font font);
 
 	/**
 	 * @param text the text to display in the output area
 	 */
-	public void setOutputText(String text) {
-		outputArea.setText(text);
-	}
-
-	/**
-	 * Shows this window's frame if it's hidden.
-	 */
-	public void showFrame() {
-		if (!frame.isVisible()) {
-			frame.setVisible(true);
-		}
-	}
+	void setOutputText(String text);
 
 }

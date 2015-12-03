@@ -1,4 +1,4 @@
-package com.actram.solace.interfaces;
+package com.actram.solace;
 
 /**
  * An input processor receives input, processes it and updates the program.
@@ -13,5 +13,5 @@ public interface InputProcessor {
 	 * 
 	 * @param input the input
 	 */
-	public void processInput(Object input);
+	void processInput(Object input);
 }

@@ -1,4 +1,4 @@
-package com.actram.solace.interfaces;
+package com.actram.solace.ui;
 
 import java.util.Locale;
 
@@ -13,18 +13,18 @@ public interface OutputOwner {
 	/**
 	 * Removes everything that has been output.
 	 */
-	public void clearOutput();
+	void clearOutput();
 
 	/**
 	 * Prints the given object.
 	 */
-	public void print(Object obj);
+	void print(Object obj);
 
 	/**
 	 * Prints a formatted string using the specified locale, format string and
 	 * arguments.
 	 */
-	public default void printf(Locale l, String format, Object... args) {
+	default void printf(Locale l, String format, Object... args) {
 		print(String.format(l, format, args));
 	}
 
@@ -32,21 +32,21 @@ public interface OutputOwner {
 	 * Prints a formatted string using the specified format string and
 	 * arguments.
 	 */
-	public default void printf(String format, Object... args) {
+	default void printf(String format, Object... args) {
 		print(String.format(format, args));
 	}
 
 	/**
 	 * Prints a new line.
 	 */
-	public default void println() {
+	default void println() {
 		print("\n");
 	}
 
 	/**
 	 * Prints the given object followed by a new line.
 	 */
-	public default void println(Object obj) {
+	default void println(Object obj) {
 		print(obj + "\n");
 	}
 }

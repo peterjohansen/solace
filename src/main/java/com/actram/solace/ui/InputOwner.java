@@ -1,4 +1,4 @@
-package com.actram.solace.interfaces;
+package com.actram.solace.ui;
 
 /**
  * An input owner controls input interfacing with the user in the program.
@@ -11,22 +11,22 @@ public interface InputOwner {
 	 * Removes what has been input by the user, but not processed. An example
 	 * would be clearing the text in a text field.
 	 */
-	public void clearInput();
+	void clearInput();
 
 	/**
 	 * @return what has been input by the user, but not processed
 	 */
-	public String getCurrentInput();
+	String getCurrentInput();
 
 	/**
 	 * @return whether the program accepts user input
 	 */
-	public boolean isAcceptingUserInput();
+	boolean isAcceptingUserInput();
 
 	/**
 	 * @return whether the input area is hidden from the user
 	 */
-	public boolean isInputHidden();
+	boolean isInputHidden();
 
 	/**
 	 * Sets whether the program should accept user input. This method differs
@@ -35,7 +35,7 @@ public interface InputOwner {
 	 * 
 	 * @param acceptInput whether to accept user input
 	 */
-	public void setAcceptUserInput(boolean acceptInput);
+	void setAcceptUserInput(boolean acceptInput);
 
 	/**
 	 * Sets the current input. The input will only be updated, not processed.
@@ -45,7 +45,7 @@ public interface InputOwner {
 	 * 
 	 * @param obj the input
 	 */
-	public void setCurrentInput(Object obj);
+	void setCurrentInput(Object obj);
 
 	/**
 	 * Sets whether the program's input area should be visible to the user. This
@@ -54,6 +54,6 @@ public interface InputOwner {
 	 * 
 	 * @param hidden whether to hide the input area from the user
 	 */
-	public void setInputHidden(boolean hidden);
+	void setInputHidden(boolean hidden);
 
 }

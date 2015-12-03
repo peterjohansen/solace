@@ -1,6 +1,4 @@
-package com.actram.solace.interpreter.errors;
-
-import com.actram.solace.interpreter.InterpreterError;
+package com.actram.solace.interpreter.error;
 
 /**
  * An error representing a {@link String} conversion fail caused by the

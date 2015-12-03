@@ -1,4 +1,6 @@
-package com.actram.solace.interfaces;
+package com.actram.solace.ui;
+
+import com.actram.solace.InputProcessor;
 
 /**
  * Interface that defines all the operations of a standard window.
