@@ -33,28 +33,32 @@ import com.actram.solace.ui.listeners.KeyListener;
  */
 public class WindowUI {
 
-	public static final String DEFAULT_TITLE = "Window";
-
-	public static final int DEFAULT_WIDTH = 600;
-	public static final int DEFAULT_HEIGHT = 300;
-
 	public static final Font DEFAULT_FONT = Font.decode("monospace");
 
 	private final JFrame frame;
 	private final JTextArea outputArea;
-	final JTextField inputArea;
+	private final JTextField inputArea;
 
 	private CloseListener closeListener;
 	private KeyListener keyListener;
 	private InputListener inputListener;
 
+	/**
+	 * Creates a new visible window user interface.
+	 */
 	public WindowUI() {
+		this(true);
+	}
+
+	/**
+	 * Creates a new window user interface with the given initial visibility.
+	 */
+	public WindowUI(boolean visible) {
 
 		// Create output area
 		outputArea = new JTextArea();
 		outputArea.setBorder(new EmptyBorder(5, 5, 5, 5));
 		outputArea.setEditable(false);
-		outputArea.setFont(DEFAULT_FONT);
 		outputArea.setLineWrap(true);
 		outputArea.setMargin(null);
 		outputArea.setWrapStyleWord(true);
@@ -80,7 +84,6 @@ public class WindowUI {
 			clearInputText();
 		});
 		inputArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.emptySet());
-		inputArea.setFont(DEFAULT_FONT);
 
 		// Create the frame
 		frame = new JFrame();
@@ -111,11 +114,11 @@ public class WindowUI {
 												// area is disabled
 
 		// Initialize the window
-		setFrameSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		setFrameTitle(DEFAULT_TITLE);
-		setInputEnabled(true);
 		setOutputFocusable(false);
-		frame.setVisible(true);
+		setOutputFont(DEFAULT_FONT);
+		setInputEnabled(true);
+		setInputFont(DEFAULT_FONT);
+		if (visible) showFrame();
 
 	}
 
@@ -176,10 +179,38 @@ public class WindowUI {
 	}
 
 	/**
+	 * Hides this window's frame if it's visible.
+	 */
+	public void hideFrame() {
+		frame.setVisible(false);
+	}
+
+	/**
 	 * @return whether the input area is enabled
 	 */
 	public boolean isInputEnabled() {
 		return inputArea.isEnabled();
+	}
+
+	/**
+	 * @return whether the input area is hidden
+	 */
+	public boolean isInputHidden() {
+		return !inputArea.isVisible();
+	}
+
+	/**
+	 * Selects the text in the input area.
+	 */
+	public void selectInput() {
+		inputArea.selectAll();
+	}
+
+	/**
+	 * Selects the text in the output area.
+	 */
+	public void selectOutput() {
+		outputArea.selectAll();
 	}
 
 	/**
@@ -209,6 +240,12 @@ public class WindowUI {
 	 * @param height the frame's new height
 	 */
 	public void setFrameSize(int width, int height) {
+		if (width < 1) {
+			throw new IllegalArgumentException("the width cannot be negative");
+		}
+		if (height < 1) {
+			throw new IllegalArgumentException("the height cannot be negative");
+		}
 		frame.setPreferredSize(new Dimension(width, height));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
@@ -231,6 +268,20 @@ public class WindowUI {
 		} else {
 			frame.requestFocus();
 		}
+	}
+
+	/**
+	 * @param font the input area's new font
+	 */
+	public void setInputFont(Font font) {
+		inputArea.setFont(font);
+	}
+
+	/**
+	 * @param hidden whether the input area should be hidden
+	 */
+	public void setInputHidden(boolean hidden) {
+		this.inputArea.setVisible(!hidden);
 	}
 
 	/**
@@ -262,9 +313,26 @@ public class WindowUI {
 	}
 
 	/**
+	 * @param font the output area's new font
+	 */
+	public void setOutputFont(Font font) {
+		outputArea.setFont(font);
+	}
+
+	/**
 	 * @param text the text to display in the output area
 	 */
 	public void setOutputText(String text) {
 		outputArea.setText(text);
 	}
+
+	/**
+	 * Shows this window's frame if it's hidden.
+	 */
+	public void showFrame() {
+		if (!frame.isVisible()) {
+			frame.setVisible(true);
+		}
+	}
+
 }

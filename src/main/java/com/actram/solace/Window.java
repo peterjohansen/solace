@@ -1,5 +1,6 @@
 package com.actram.solace;
 
+import java.awt.Font;
 import java.awt.Image;
 import java.util.Objects;
 
@@ -77,6 +78,11 @@ public class Window implements StandardWindow {
 	}
 
 	@Override
+	public boolean isInputHidden() {
+		return windowUI.isInputHidden();
+	}
+
+	@Override
 	public void print(Object obj) {
 		windowUI.appendOutputText(obj.toString());
 	}
@@ -84,11 +90,21 @@ public class Window implements StandardWindow {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * By default a {@link Window} will print the input.
+	 * By default a {@link Window} will echo back any input from the user.
 	 */
 	@Override
-	public void processInput(String input) {
+	public void processInput(Object input) {
 		println(input);
+	}
+
+	@Override
+	public void selectInputText() {
+		windowUI.selectInput();
+	}
+
+	@Override
+	public void selectOuputText() {
+		windowUI.selectOutput();
 	}
 
 	@Override
@@ -107,8 +123,28 @@ public class Window implements StandardWindow {
 	}
 
 	@Override
+	public void setInputFont(Font font) {
+		windowUI.setInputFont(font);
+	}
+
+	@Override
+	public void setInputHidden(boolean hidden) {
+		windowUI.setInputHidden(hidden);
+	}
+
+	@Override
 	public void setLocation(int x, int y) {
 		windowUI.setFrameLocation(x, y);
+	}
+
+	@Override
+	public void setOutputFocusable(boolean focusable) {
+		windowUI.setOutputFocusable(focusable);
+	}
+
+	@Override
+	public void setOutputFont(Font font) {
+		windowUI.setOutputFont(font);
 	}
 
 	@Override
@@ -122,7 +158,7 @@ public class Window implements StandardWindow {
 
 		windowUI.setFrameSize(width, height);
 	}
-
+	
 	@Override
 	public void setTitle(String title) {
 		windowUI.setFrameTitle(title);

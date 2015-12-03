@@ -13,5 +13,5 @@ public interface InputProcessor {
 	 * 
 	 * @param input the input
 	 */
-	public void processInput(String input);
+	public void processInput(Object input);
 }

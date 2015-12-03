@@ -5,6 +5,5 @@ package com.actram.solace.interfaces;
  *
  * @author Peter André Johansen
  */
-public interface StandardWindow extends InputOwner, InputProcessor, OutputOwner, WindowOwner {
-
+public interface StandardWindow extends InputOwner, InputProcessor, OutputOwner, TextProgram, WindowOwner {
 }

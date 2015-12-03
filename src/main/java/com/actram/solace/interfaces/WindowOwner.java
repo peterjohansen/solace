@@ -8,7 +8,7 @@ import java.awt.Image;
  * @author Peter André Johansen
  */
 public interface WindowOwner {
-	
+
 	/**
 	 * Closes the window.
 	 */
@@ -23,7 +23,7 @@ public interface WindowOwner {
 	 * @return the window's title
 	 */
 	public String getTitle();
-	
+
 	/**
 	 * @return the windows' width
 	 */
@@ -41,6 +41,7 @@ public interface WindowOwner {
 
 	/**
 	 * @param height the window's new height
+	 * @throws IllegalArgumentException if the height is negative
 	 */
 	public default void setHeight(int height) {
 		this.setSize(getWidth(), height);
@@ -72,6 +73,7 @@ public interface WindowOwner {
 
 	/**
 	 * @param width the window's new width
+	 * @throws IllegalArgumentException if the width is negative
 	 */
 	public default void setWidth(int width) {
 		this.setSize(width, getHeight());
