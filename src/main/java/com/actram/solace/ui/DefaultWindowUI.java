@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -55,6 +57,13 @@ public class DefaultWindowUI implements WindowUI {
 	 * Creates a new window user interface with the given initial visibility.
 	 */
 	public DefaultWindowUI(boolean visible) {
+		
+		// Attempt to set the look and feel to the system's
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			// e.printStackTrace();
+		}
 
 		// Create output area
 		this.outputArea = new JTextArea();
