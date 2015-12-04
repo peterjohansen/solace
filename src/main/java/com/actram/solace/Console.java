@@ -4,16 +4,31 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
-import com.actram.solace.interpreter.InterpreterType;
+import com.actram.solace.interpreter.InputInterpreter;
 import com.actram.solace.ui.DefaultWindowUI;
 import com.actram.solace.ui.WindowUI;
 
 /**
- *
+ * A console is a text-based user interface. Input can be received from the user
+ * through a text field and key presses and output can be displayed in a text
+ * area.
+ * <p>
+ * The console receives text input by polling. This means that the user cannot
+ * enter input until the program requests it and execution will halt until
+ * acceptable input has been submitted.
+ * <p>
+ * An example of this behavior:
+ * 
+ * <pre>
+ * Console console = new Console();
+ * console.println("Enter your name:");
+ * String name = console.getString();
+ * console.println("Hello, " + name + ".");
+ * </pre>
  *
  * @author Peter André Johansen
  */
-public class Console extends Window {
+public class Console extends Window implements InputInterpreter {
 	public static final String DEFAULT_TITLE = "Console";
 
 	/**
@@ -24,75 +39,72 @@ public class Console extends Window {
 	}
 
 	/**
-	 * @return a new console with the given width and height
-	 * @throws IllegalArgumentException if the width is negative
-	 * @throws IllegalArgumentException if the height is negative
+	 * @return a new console with the default size and the given title
 	 */
-	public static Console createNew(int width, int height) {
-		return Console.createNew(width, height, DEFAULT_TITLE);
-	}
-
-	/**
-	 * @return a new console with the given width, height and title
-	 * @throws IllegalArgumentException if the width is negative
-	 * @throws IllegalArgumentException if the height is negative
-	 */
-	public static Console createNew(int width, int height, String title) {
-		if (width < 0) {
-			throw new IllegalArgumentException("the width cannot be negative");
-		}
-		if (height < 0) {
-			throw new IllegalArgumentException("the height cannot be negative");
-		}
-		
+	public static Console createNew(String title) {
 		WindowUI windowUI = new DefaultWindowUI(false);
-		windowUI.setFrameSize(width, height);
 		windowUI.setFrameTitle(title);
 		windowUI.setFrameVisible(true);
 		return new Console(windowUI);
 	}
 
 	/**
-	 * @return a new console with the default size and the given title
-	 */
-	public static Console createNew(String title) {
-		return Console.createNew(DEFAULT_WIDTH, DEFAULT_HEIGHT, title);
-	}
-
-	/**
-	 * Used to pause the thread when {@link #getString()} is called.
+	 * Used to pause the thread when {@link #nextString()} is called.
 	 */
 	private CountDownLatch latch;
 
-	/**
-	 * Whether the console is waiting for user interaction.
-	 */
-	private boolean awatingInteraction;
-
-	/**
-	 * The speed in milliseconds to display each character in the output area.
-	 */
-	private int speed;
-
-	/**
-	 * Whether the console is currently printing out text. Necessary if the text
-	 * is not displayed instantly.
-	 */
+	private final Queue<String> outputQueue = new PriorityQueue<>();
+	private int printSpeed;
 	private boolean printingText;
 
-	private final Queue<Object> outputQueue = new PriorityQueue<>();
 	private String lastInputSubmitted;
+	private boolean awatingInteraction;
 	private char lastKeyPressed;
 
 	/**
-	 * Creates a new console that uses the given window user interface,
-	 * which also controls whether the console is visible initially.
+	 * Creates a new console window.
 	 * <p>
-	 * <strong>Note:</strong> Use {@link Console#createNew()} to create a new
-	 * console. This constructor should only be used if you need to specify a
-	 * custom user interface.
+	 * The window will use the {@link DefaultWindowUI}.
+	 */
+	public Console() {
+		this(DEFAULT_TITLE);
+	}
+
+	/**
+	 * Creates a new console window.
+	 * <p>
+	 * The window will use the {@link DefaultWindowUI}.
+	 * 
+	 * @param title the console's title
+	 */
+	public Console(String title) {
+		this(new DefaultWindowUI(), title);
+	}
+
+	/**
+	 * Creates a new console window.
+	 * <p>
+	 * Unless you need to provide your own user interface, use this constructor
+	 * instead: {@link #Console()}
+	 * 
+	 * @param windowUI the window user interface, which also controls whether
+	 *            the console is visible initially
 	 */
 	public Console(WindowUI windowUI) {
+		this(windowUI, DEFAULT_TITLE);
+	}
+
+	/**
+	 * Creates a new console window.
+	 * <p>
+	 * Unless you need to provide your own user interface, use one of these
+	 * constructors instead: {@link #Console()} or {@link #Console(String)}
+	 * 
+	 * @param windowUI the window user interface, which also controls whether
+	 *            the console is visible initially
+	 * @param title the console's title
+	 */
+	public Console(WindowUI windowUI, String title) {
 		super(windowUI);
 
 		setAcceptUserInput(false);
@@ -110,14 +122,11 @@ public class Console extends Window {
 	}
 
 	/**
-	 * Polls the console for the given custom type. A {@link InputValidator}
-	 * with the same type must be specified (see {@link #TEMP()}) beforehand.
-	 * 
-	 * @param type the type of input to get
-	 * @return the input object
+	 * @return the last received input, or {@code null} if no input has been
+	 *         received
 	 */
-	public <T> T get(InterpreterType type) {
-		return null;
+	public final String getLastInput() {
+		return lastInputSubmitted;
 	}
 
 	/**
@@ -128,16 +137,15 @@ public class Console extends Window {
 	 * 
 	 * @return the display speed
 	 */
-	public int getDisplaySpeed() {
-		return speed;
+	public int getPrintSpeed() {
+		return printSpeed;
 	}
 
 	/**
-	 * @return the last received input, or {@code null} if no input has been
-	 *         received
+	 * @return whether the console is waiting for input
 	 */
-	public final String getLastInput() {
-		return lastInputSubmitted;
+	public final boolean isWaitingForInput() {
+		return (latch != null);
 	}
 
 	/**
@@ -146,18 +154,12 @@ public class Console extends Window {
 	 * 
 	 * @return the string
 	 */
-	public String getString() {
+	@Override
+	public String nextString() {
 		setAcceptUserInput(true);
 		pauseThread();
 		setAcceptUserInput(false);
 		return lastInputSubmitted;
-	}
-
-	/**
-	 * @return whether the console is waiting for input
-	 */
-	public final boolean isWaitingForInput() {
-		return (latch != null);
 	}
 
 	/**
@@ -178,13 +180,13 @@ public class Console extends Window {
 
 	@Override
 	public final void print(Object o) {
-		if (speed == 0) {
-			super.print(o);
+		final String str = o.toString();
+		if (printSpeed == 0) {
+			super.print(str);
 		} else {
 			if (printingText) {
-				outputQueue.add(o);
+				outputQueue.add(str);
 			} else {
-				final String str = o.toString();
 				printingText = true;
 				boolean previousAllowInput = isAcceptingUserInput();
 				new Thread(new Runnable() {
@@ -196,7 +198,7 @@ public class Console extends Window {
 							// Attempt to print a character and sleep
 							for (; index < str.length(); index++) {
 								Console.super.print(str.charAt(index));
-								Thread.sleep(speed);
+								Thread.sleep(printSpeed);
 							}
 
 						} catch (InterruptedException e) {
@@ -254,10 +256,28 @@ public class Console extends Window {
 	 * 
 	 * @param speed the display speed
 	 */
-	public void setDisplaySpeed(int speed) {
+	public void setPrintSpeed(int speed) {
 		if (speed < 0) {
-			throw new IllegalArgumentException("the display speed cannot be negative (speed=" + speed + ")");
+			throw new IllegalArgumentException("the print speed cannot be negative (speed=" + speed + ")");
 		}
-		this.speed = speed;
+		this.printSpeed = speed;
+	}
+
+	/**
+	 * Halts execution for the given period of time (in milliseconds).
+	 * <p>
+	 * This method uses {@link Thread#sleep(long)} and might therefore not be
+	 * exactly accurate.
+	 */
+	public void waitFor(long ms) {
+		if (ms < 0) {
+			throw new IllegalArgumentException("the wait time cannot be negative (ms=" + ms + ")");
+		}
+
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

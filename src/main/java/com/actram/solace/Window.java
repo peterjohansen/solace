@@ -9,30 +9,34 @@ import com.actram.solace.ui.StandardWindow;
 import com.actram.solace.ui.WindowUI;
 
 /**
- * 
+ * A window is a text-based user interface. Input can be received from the user
+ * through a text field and key presses and output can be displayed in a text
+ * area.
  *
  * @author Peter André Johansen
  */
 public class Window implements StandardWindow {
 	public static final String DEFAULT_TITLE = "Window";
-	
+
 	protected final WindowUI windowUI;
 
+	/**
+	 * Creates a new window.
+	 * <p>
+	 * The window will use the {@link DefaultWindowUI}.
+	 */
 	public Window() {
 		this(new DefaultWindowUI());
 	}
-	
+
 	/**
-	 * Creates a new window that uses the given window user interface,
-	 * which also controls whether the window is visible initially.
-	 * <p>
-	 * <strong>Note:</strong> Use {@link Window#createNew()} to create a new
-	 * window. This constructor should only be used if you need to specify a
-	 * custom user interface.
+	 * Creates a new window that uses the given window user interface, which
+	 * also controls whether the window is visible initially.
 	 */
 	public Window(WindowUI windowUI) {
 		Objects.requireNonNull(windowUI, "the window user interface cannot be null");
 		this.windowUI = windowUI;
+		windowUI.setFrameTitle(DEFAULT_TITLE);
 
 		windowUI.setCloseListener(() -> close());
 		windowUI.setInputListener((input) -> processInput(input));
@@ -169,7 +173,7 @@ public class Window implements StandardWindow {
 
 		windowUI.setFrameSize(width, height);
 	}
-	
+
 	@Override
 	public void setTitle(String title) {
 		windowUI.setFrameTitle(title);

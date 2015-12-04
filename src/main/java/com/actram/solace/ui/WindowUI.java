@@ -25,7 +25,7 @@ public interface WindowUI {
 	 * Disposes of the frame.
 	 */
 	void disposeOfFrame();
-	
+
 	/**
 	 * @return the frame's location
 	 */
@@ -77,7 +77,8 @@ public interface WindowUI {
 	void selectOutput();
 
 	/**
-	 * @param closeListener the window's new close listener, or {@code null} to clear it
+	 * @param closeListener the window's new close listener, or {@code null} to
+	 *            clear it
 	 */
 	void setCloseListener(CloseListener closeListener);
 
@@ -128,7 +129,8 @@ public interface WindowUI {
 	void setInputHidden(boolean hidden);
 
 	/**
-	 * @param inputListener the window's new input listener, or {@code null} to clear it
+	 * @param inputListener the window's new input listener, or {@code null} to
+	 *            clear it
 	 */
 	void setInputListener(InputListener inputListener);
 
@@ -138,7 +140,8 @@ public interface WindowUI {
 	void setInputText(String text);
 
 	/**
-	 * @param keyListener the window's new key listener, or {@code null} to clear it
+	 * @param keyListener the window's new key listener, or {@code null} to
+	 *            clear it
 	 */
 	void setKeyListener(KeyListener keyListener);
 

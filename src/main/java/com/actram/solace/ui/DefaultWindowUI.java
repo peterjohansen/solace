@@ -164,12 +164,12 @@ public class DefaultWindowUI implements WindowUI {
 	public String getOutputText() {
 		return outputArea.getText();
 	}
-	
+
 	@Override
 	public boolean isFrameVisible() {
 		return frame.isVisible();
 	}
-	
+
 	@Override
 	public boolean isInputEnabled() {
 		return inputArea.isEnabled();
@@ -227,7 +227,7 @@ public class DefaultWindowUI implements WindowUI {
 	public void setFrameVisible(boolean visible) {
 		if (frame.isVisible() != visible) {
 			frame.setVisible(visible);
-		}		
+		}
 	}
 
 	@Override

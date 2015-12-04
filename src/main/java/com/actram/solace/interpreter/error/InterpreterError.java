@@ -6,4 +6,10 @@ package com.actram.solace.interpreter.error;
  * @author Peter André Johansen
  */
 public interface InterpreterError {
+
+	/**
+	 * @return a description of this type of error
+	 */
+	//public String getDescription();
+
 }
