@@ -32,23 +32,6 @@ public class Console extends Window implements InputInterpreter {
 	public static final String DEFAULT_TITLE = "Console";
 
 	/**
-	 * @return a new console with the default size
-	 */
-	public static Console createNew() {
-		return Console.createNew(null);
-	}
-
-	/**
-	 * @return a new console with the default size and the given title
-	 */
-	public static Console createNew(String title) {
-		WindowUI windowUI = new DefaultWindowUI(false);
-		windowUI.setTitle(title);
-		windowUI.setVisible(true);
-		return new Console(windowUI);
-	}
-
-	/**
 	 * Used to pause the thread when {@link #nextString()} is called.
 	 */
 	private CountDownLatch latch;

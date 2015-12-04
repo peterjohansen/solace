@@ -44,7 +44,7 @@ public class SolaceApplication {
 		Objects.requireNonNull(program, "the program cannot be null");
 
 		if (console == null) {
-			console = Console.createNew();
+			console = new Console();
 		}
 		program.run(console);
 	}
