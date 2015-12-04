@@ -43,8 +43,8 @@ public class Console extends Window implements InputInterpreter {
 	 */
 	public static Console createNew(String title) {
 		WindowUI windowUI = new DefaultWindowUI(false);
-		windowUI.setFrameTitle(title);
-		windowUI.setFrameVisible(true);
+		windowUI.setTitle(title);
+		windowUI.setVisible(true);
 		return new Console(windowUI);
 	}
 
@@ -279,5 +279,11 @@ public class Console extends Window implements InputInterpreter {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void waitForInteraction() {
+		awatingInteraction = true;
+		pauseThread();
+		awatingInteraction = false;
 	}
 }

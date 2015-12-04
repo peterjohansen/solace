@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.KeyboardFocusManager;
-import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -27,7 +26,7 @@ import com.actram.solace.ui.event.InputListener;
 import com.actram.solace.ui.event.KeyListener;
 
 /**
- * A graphical user interface that can display text and receive input.
+ * A text-based user interface that can display and receive text input.
  * 
  * @author Peter André Johansen
  */
@@ -83,7 +82,7 @@ public class DefaultWindowUI implements WindowUI {
 			if (inputListener != null && !input.isEmpty()) {
 				inputListener.receiveInput(input);
 			}
-			clearInputText();
+			clearInput();
 		});
 		inputArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.emptySet());
 
@@ -102,7 +101,7 @@ public class DefaultWindowUI implements WindowUI {
 		frame.add(outputAreaScrollPane, BorderLayout.CENTER);
 		frame.add(inputArea, BorderLayout.SOUTH);
 
-		// Add key listener to the window
+		// Add the key listener to the window
 		java.awt.event.KeyListener uiKeyListener = new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
@@ -118,60 +117,65 @@ public class DefaultWindowUI implements WindowUI {
 		// Initialize the window
 		setOutputFocusable(false);
 		setOutputFont(DEFAULT_FONT);
-		setInputEnabled(true);
+		setAcceptUserInput(true);
 		setInputFont(DEFAULT_FONT);
-		setFrameSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		setFrameVisible(visible);
+		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		setVisible(visible);
 
 	}
 
 	@Override
-	public void appendOutputText(String text) {
-		outputArea.append(text);
+	public void clearInput() {
+		setCurrentInput(null);
 	}
 
 	@Override
-	public void clearInputText() {
-		setInputText(null);
+	public void clearOutput() {
+		setCurrentOutput(null);
 	}
 
 	@Override
-	public void disposeOfFrame() {
+	public void close() {
 		frame.dispose();
 	}
 
 	@Override
-	public Point getFrameLocation() {
-		return frame.getLocation();
-	}
-
-	@Override
-	public Dimension getFrameSize() {
-		return frame.getSize();
-	}
-
-	@Override
-	public String getFrameTitle() {
-		return frame.getTitle();
-	}
-
-	@Override
-	public String getInputText() {
+	public String getCurrentInput() {
 		return inputArea.getText();
 	}
 
 	@Override
-	public String getOutputText() {
+	public String getCurrentOutput() {
 		return outputArea.getText();
 	}
 
 	@Override
-	public boolean isFrameVisible() {
-		return frame.isVisible();
+	public int getHeight() {
+		return frame.getHeight();
 	}
 
 	@Override
-	public boolean isInputEnabled() {
+	public String getTitle() {
+		return frame.getTitle();
+	}
+
+	@Override
+	public int getWidth() {
+		return frame.getWidth();
+	}
+
+	@Override
+	public int getX() {
+		return frame.getX();
+	}
+
+	@Override
+	public int getY() {
+		return frame.getY();
+	}
+
+	@Override
+	public boolean isAcceptingUserInput() {
 		return inputArea.isEnabled();
 	}
 
@@ -181,13 +185,28 @@ public class DefaultWindowUI implements WindowUI {
 	}
 
 	@Override
-	public void selectInput() {
+	public void print(Object obj) {
+		outputArea.append(obj.toString());
+	}
+
+	@Override
+	public void selectInputText() {
 		inputArea.selectAll();
 	}
 
 	@Override
-	public void selectOutput() {
+	public void selectOuputText() {
 		outputArea.selectAll();
+	}
+
+	@Override
+	public void setAcceptUserInput(boolean acceptInput) {
+		inputArea.setEnabled(acceptInput);
+		if (acceptInput) {
+			inputArea.requestFocusInWindow();
+		} else {
+			frame.requestFocus();
+		}
 	}
 
 	@Override
@@ -196,48 +215,18 @@ public class DefaultWindowUI implements WindowUI {
 	}
 
 	@Override
-	public void setFrameIconImage(Image image) {
+	public void setCurrentInput(Object obj) {
+		inputArea.setText(obj != null ? obj.toString() : "");
+	}
+
+	@Override
+	public void setCurrentOutput(Object obj) {
+		outputArea.setText(obj != null ? obj.toString() : "");
+	}
+
+	@Override
+	public void setIconImage(Image image) {
 		frame.setIconImage(image);
-	}
-
-	@Override
-	public void setFrameLocation(int x, int y) {
-		frame.setLocation(x, y);
-	}
-
-	@Override
-	public void setFrameSize(int width, int height) {
-		if (width < 0) {
-			throw new IllegalArgumentException("the width cannot be negative");
-		}
-		if (height < 0) {
-			throw new IllegalArgumentException("the height cannot be negative");
-		}
-		frame.setPreferredSize(new Dimension(width, height));
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-	}
-
-	@Override
-	public void setFrameTitle(String title) {
-		frame.setTitle(title);
-	}
-
-	@Override
-	public void setFrameVisible(boolean visible) {
-		if (frame.isVisible() != visible) {
-			frame.setVisible(visible);
-		}
-	}
-
-	@Override
-	public void setInputEnabled(boolean enabled) {
-		inputArea.setEnabled(enabled);
-		if (enabled) {
-			inputArea.requestFocusInWindow();
-		} else {
-			frame.requestFocus();
-		}
 	}
 
 	@Override
@@ -247,7 +236,7 @@ public class DefaultWindowUI implements WindowUI {
 
 	@Override
 	public void setInputHidden(boolean hidden) {
-		this.inputArea.setVisible(!hidden);
+		inputArea.setVisible(hidden);
 	}
 
 	@Override
@@ -256,13 +245,13 @@ public class DefaultWindowUI implements WindowUI {
 	}
 
 	@Override
-	public void setInputText(String text) {
-		inputArea.setText(text);
+	public void setKeyListener(KeyListener keyListener) {
+		this.keyListener = keyListener;
 	}
 
 	@Override
-	public void setKeyListener(KeyListener keyListener) {
-		this.keyListener = keyListener;
+	public void setLocation(int x, int y) {
+		frame.setLocation(x, y);
 	}
 
 	@Override
@@ -276,7 +265,28 @@ public class DefaultWindowUI implements WindowUI {
 	}
 
 	@Override
-	public void setOutputText(String text) {
-		outputArea.setText(text);
+	public void setSize(int width, int height) {
+		if (width < 0) {
+			throw new IllegalArgumentException("the width cannot be negative");
+		}
+		if (height < 0) {
+			throw new IllegalArgumentException("the height cannot be negative");
+		}
+
+		frame.setPreferredSize(new Dimension(width, height));
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+	}
+
+	@Override
+	public void setTitle(String title) {
+		frame.setTitle(title);
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		if (frame.isVisible() != visible) {
+			frame.setVisible(visible);
+		}
 	}
 }

@@ -2,6 +2,10 @@ package com.actram.solace.ui;
 
 import java.awt.Image;
 
+import com.actram.solace.ui.event.CloseListener;
+import com.actram.solace.ui.event.InputListener;
+import com.actram.solace.ui.event.KeyListener;
+
 /**
  * A window owner controls a window.
  *
@@ -40,6 +44,19 @@ public interface WindowOwner {
 	int getY();
 
 	/**
+	 * Hides the window if it's visible.
+	 */
+	default void hide() {
+		setVisible(false);
+	}
+
+	/**
+	 * @param closeListener the window's new close listener, or {@code null} to
+	 *            clear it
+	 */
+	void setCloseListener(CloseListener closeListener);
+
+	/**
 	 * @param height the window's new height
 	 * @throws IllegalArgumentException if the height is negative
 	 */
@@ -51,6 +68,18 @@ public interface WindowOwner {
 	 * @param image the window's new icon image
 	 */
 	void setIconImage(Image image);
+
+	/**
+	 * @param inputListener the window's new input listener, or {@code null} to
+	 *            clear it
+	 */
+	void setInputListener(InputListener inputListener);
+
+	/**
+	 * @param keyListener the window's new key listener, or {@code null} to
+	 *            clear it
+	 */
+	void setKeyListener(KeyListener keyListener);
 
 	/**
 	 * @param x the window's new x-coordinate
@@ -70,6 +99,12 @@ public interface WindowOwner {
 	 * @param title the window's new title
 	 */
 	void setTitle(String title);
+
+	/**
+	 * Sets whether the window is visible. The window will be resized around its
+	 * center.
+	 */
+	void setVisible(boolean visible);
 
 	/**
 	 * @param width the window's new width
@@ -92,4 +127,12 @@ public interface WindowOwner {
 	default void setY(int y) {
 		setLocation(getX(), y);
 	}
+
+	/**
+	 * Shows the window if it's hidden.
+	 */
+	default void show() {
+		setVisible(true);
+	}
+
 }

@@ -5,8 +5,10 @@ import java.awt.Image;
 import java.util.Objects;
 
 import com.actram.solace.ui.DefaultWindowUI;
-import com.actram.solace.ui.StandardWindow;
 import com.actram.solace.ui.WindowUI;
+import com.actram.solace.ui.event.CloseListener;
+import com.actram.solace.ui.event.InputListener;
+import com.actram.solace.ui.event.KeyListener;
 
 /**
  * A window is a text-based user interface. Input can be received from the user
@@ -15,7 +17,7 @@ import com.actram.solace.ui.WindowUI;
  *
  * @author Peter André Johansen
  */
-public class Window implements StandardWindow {
+public class Window implements InputProcessor, WindowUI {
 	public static final String DEFAULT_TITLE = "Window";
 
 	protected final WindowUI windowUI;
@@ -36,7 +38,7 @@ public class Window implements StandardWindow {
 	public Window(WindowUI windowUI) {
 		Objects.requireNonNull(windowUI, "the window user interface cannot be null");
 		this.windowUI = windowUI;
-		windowUI.setFrameTitle(DEFAULT_TITLE);
+		windowUI.setTitle(DEFAULT_TITLE);
 
 		windowUI.setCloseListener(() -> close());
 		windowUI.setInputListener((input) -> processInput(input));
@@ -44,52 +46,57 @@ public class Window implements StandardWindow {
 
 	@Override
 	public void clearInput() {
-		windowUI.clearInputText();
+		windowUI.clearInput();
 	}
 
 	@Override
 	public void clearOutput() {
-		windowUI.setOutputText(null);
+		windowUI.clearOutput();
 	}
 
 	@Override
 	public void close() {
-		windowUI.disposeOfFrame();
+		windowUI.close();
 	}
 
 	@Override
 	public String getCurrentInput() {
-		return windowUI.getInputText();
+		return windowUI.getCurrentInput();
+	}
+
+	@Override
+	public String getCurrentOutput() {
+		return windowUI.getCurrentOutput();
 	}
 
 	@Override
 	public int getHeight() {
-		return windowUI.getFrameSize().height;
+		return windowUI.getHeight();
 	}
 
 	@Override
 	public String getTitle() {
-		return windowUI.getFrameTitle();
+		return windowUI.getTitle();
 	}
 
 	@Override
 	public int getWidth() {
-		return windowUI.getFrameSize().width;
+		return windowUI.getWidth();
 	}
 
 	@Override
 	public int getX() {
-		return windowUI.getFrameLocation().x;
+		return windowUI.getX();
 	}
 
 	@Override
 	public int getY() {
-		return windowUI.getFrameLocation().y;
+		return windowUI.getY();
 	}
 
 	@Override
 	public boolean isAcceptingUserInput() {
-		return windowUI.isInputEnabled();
+		return windowUI.isAcceptingUserInput();
 	}
 
 	@Override
@@ -99,14 +106,9 @@ public class Window implements StandardWindow {
 
 	@Override
 	public void print(Object obj) {
-		windowUI.appendOutputText(obj.toString());
+		windowUI.print(obj);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * By default a {@link Window} will echo back any input from the user.
-	 */
 	@Override
 	public void processInput(Object input) {
 		println(input);
@@ -114,27 +116,37 @@ public class Window implements StandardWindow {
 
 	@Override
 	public void selectInputText() {
-		windowUI.selectInput();
+		windowUI.selectInputText();
 	}
 
 	@Override
 	public void selectOuputText() {
-		windowUI.selectOutput();
+		windowUI.selectOuputText();
 	}
 
 	@Override
 	public void setAcceptUserInput(boolean acceptInput) {
-		windowUI.setInputEnabled(acceptInput);
+		windowUI.setAcceptUserInput(acceptInput);
+	}
+
+	@Override
+	public void setCloseListener(CloseListener closeListener) {
+		windowUI.setCloseListener(closeListener);
 	}
 
 	@Override
 	public void setCurrentInput(Object obj) {
-		windowUI.setInputText(obj.toString());
+		windowUI.setCurrentInput(obj);
+	}
+
+	@Override
+	public void setCurrentOutput(Object obj) {
+		windowUI.setCurrentOutput(obj);
 	}
 
 	@Override
 	public void setIconImage(Image image) {
-		windowUI.setFrameIconImage(image);
+		windowUI.setIconImage(image);
 	}
 
 	@Override
@@ -148,8 +160,18 @@ public class Window implements StandardWindow {
 	}
 
 	@Override
+	public void setInputListener(InputListener inputListener) {
+		windowUI.setInputListener(inputListener);
+	}
+
+	@Override
+	public void setKeyListener(KeyListener keyListener) {
+		windowUI.setKeyListener(keyListener);
+	}
+
+	@Override
 	public void setLocation(int x, int y) {
-		windowUI.setFrameLocation(x, y);
+		windowUI.setLocation(x, y);
 	}
 
 	@Override
@@ -164,18 +186,16 @@ public class Window implements StandardWindow {
 
 	@Override
 	public void setSize(int width, int height) {
-		if (width < 0) {
-			throw new IllegalArgumentException("the window width cannot be negative");
-		}
-		if (height < 0) {
-			throw new IllegalArgumentException("the window height cannot be negative");
-		}
-
-		windowUI.setFrameSize(width, height);
+		windowUI.setSize(width, height);
 	}
 
 	@Override
 	public void setTitle(String title) {
-		windowUI.setFrameTitle(title);
+		windowUI.setTitle(title);
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		windowUI.setVisible(visible);
 	}
 }

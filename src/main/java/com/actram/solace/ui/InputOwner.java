@@ -40,6 +40,8 @@ public interface InputOwner {
 	/**
 	 * Sets the current input. The input will only be updated, not processed.
 	 * <p>
+	 * If the given object is {@code null}, the input is cleared.
+	 * <p>
 	 * <strong>Note:</strong> This method can be disruptive to the user if it
 	 * behaves unexpectedly.
 	 * 

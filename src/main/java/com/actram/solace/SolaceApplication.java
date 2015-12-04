@@ -9,6 +9,20 @@ import java.util.Objects;
  * @author Peter André Johansen
  */
 public class SolaceApplication {
+
+	/**
+	 * Runtime exception for failed runtime instantiation of a console program.
+	 *
+	 * @author Peter André Johansen
+	 */
+	private static class SolaceApplicationException extends RuntimeException {
+		private static final long serialVersionUID = -5173269888034861502L;
+
+		public SolaceApplicationException(String message) {
+			super(message);
+		}
+	}
+
 	private static Console console;
 
 	/**
@@ -18,8 +32,8 @@ public class SolaceApplication {
 		Objects.requireNonNull(cls, "the console program class cannot be null");
 		try {
 			launch(cls.newInstance());
-		} catch (Exception e) {
-			throw new IllegalArgumentException("could not create a new instance of the class: " + e);
+		} catch (IllegalAccessException | InstantiationException e) {
+			throw new SolaceApplicationException("the " + cls.getSimpleName() + ".class console program could not be launched");
 		}
 	}
 

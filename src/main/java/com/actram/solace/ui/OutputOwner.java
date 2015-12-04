@@ -16,6 +16,11 @@ public interface OutputOwner {
 	void clearOutput();
 
 	/**
+	 * @return what has been output
+	 */
+	String getCurrentOutput();
+
+	/**
 	 * Prints the given object.
 	 */
 	void print(Object obj);
@@ -49,4 +54,13 @@ public interface OutputOwner {
 	default void println(Object obj) {
 		print(obj + "\n");
 	}
+
+	/**
+	 * Sets the current output. Any existing output will be overwritten.
+	 * <p>
+	 * If the given object is {@code null}, the output is cleared.
+	 * 
+	 * @param obj the output
+	 */
+	void setCurrentOutput(Object obj);
 }
