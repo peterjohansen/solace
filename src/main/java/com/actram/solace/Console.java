@@ -91,6 +91,7 @@ public class Console extends Window implements InputInterpreter {
 		super(windowUI);
 
 		setAcceptUserInput(false);
+		setTitle(title);
 
 		windowUI.setKeyListener((code) -> {
 			this.lastKeyPressed = (char) code;
