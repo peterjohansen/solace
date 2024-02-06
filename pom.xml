@@ -22,10 +22,16 @@
                 <artifactId>value</artifactId>
                 <version>2.10.0</version>
             </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.10.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
+        <module>solace-controller</module>
         <module>solace-core</module>
         <module>solace-dist</module>
         <module>solace-ui</module>

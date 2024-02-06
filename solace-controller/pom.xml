@@ -10,13 +10,23 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>solace-dist</artifactId>
+    <artifactId>solace-controller</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.pemacy</groupId>
-            <artifactId>solace-controller</artifactId>
+            <artifactId>solace-core</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.pemacy</groupId>
+            <artifactId>solace-ui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
