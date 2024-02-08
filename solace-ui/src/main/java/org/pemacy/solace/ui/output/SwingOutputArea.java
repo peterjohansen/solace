@@ -14,7 +14,7 @@ public class SwingOutputArea implements OutputArea {
         textArea.setBorder(new EmptyBorder(8, 8, 8, 8));
         textArea.setEditable(false);
         textArea.setFocusable(false);
-        textArea.setFont(Font.decode("monospace"));
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         textArea.setLineWrap(true);
         textArea.setMargin(null);
         textArea.setWrapStyleWord(true);
@@ -26,8 +26,6 @@ public class SwingOutputArea implements OutputArea {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(textArea);
-
-        textArea.setText("hello world ".repeat(16).trim()); // TODO
     }
 
     public JComponent getComponent() {

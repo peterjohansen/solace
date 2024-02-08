@@ -16,11 +16,10 @@ public class SwingInputArea implements InputArea {
         this.textField = new JTextField();
         textField.setBorder(new CompoundBorder(
                 new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY),
-                new EmptyBorder(5, 5, 5, 5)));
+                new EmptyBorder(8, 8, 8, 8)));
         textField.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, emptySet());
-        textField.setFont(Font.decode("monospace"));
+        textField.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         textField.requestFocus();
-
     }
 
     public JTextField getTextField() {

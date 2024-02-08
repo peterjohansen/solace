@@ -7,6 +7,7 @@ import org.pemacy.solace.ui.window.Window;
 
 public class SwingUserInterfaceFactory implements UserInterfaceFactory {
 
+    @Override
     public Window newWindow() {
         final var outputArea = new SwingOutputArea();
         final var inputArea = new SwingInputArea();

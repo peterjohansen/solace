@@ -17,7 +17,6 @@ public class SwingWindow implements Window {
         frame.setMinimumSize(new Dimension(512, 256));
         frame.setPreferredSize(new Dimension(1024, 512));
         frame.pack();
-        frame.setTitle("Solace");
 
         frame.add(BorderLayout.CENTER, outputArea.getComponent());
         frame.add(BorderLayout.SOUTH, inputArea.getTextField());
@@ -31,6 +30,12 @@ public class SwingWindow implements Window {
 
     public JFrame getFrame() {
         return frame;
+    }
+
+    @Override
+    public Window setTitle(final String title) {
+        frame.setTitle(title);
+        return this;
     }
 
     @Override
