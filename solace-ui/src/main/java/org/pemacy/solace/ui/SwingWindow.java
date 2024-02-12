@@ -40,7 +40,7 @@ public class SwingWindow implements Window {
 
     @Override
     public Window setVisible(final boolean visible) {
-        frame.setVisible(visible);
+        SwingUtilities.invokeLater(() -> frame.setVisible(visible));
         return this;
     }
 
